@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\Department;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
@@ -12,7 +13,14 @@ class CourseController extends Controller
      */
     public function index()
     {
-        //
+        $departments = Department::all();
+        $courses = Course::all();
+
+        $data = [
+            "departments" => $departments,
+            "courses" => $courses,
+        ];
+        return view('course', $data);
     }
 
     /**
