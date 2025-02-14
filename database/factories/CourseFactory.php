@@ -24,6 +24,7 @@ class CourseFactory extends Factory
             'major' => 'major in data science',
             'year_granted' => '2004',
             'years' => 4,
+            'slots' => 40,
         ];
     }
 }

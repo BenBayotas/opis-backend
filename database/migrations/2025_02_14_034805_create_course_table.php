@@ -29,7 +29,7 @@ return new class extends Migration
             $table->year('year_granted')->nullable();
             $table->integer('years');
 
-            /*$table->integer('slots');*/
+            $table->integer('slots');
             /*$table->foreignId('discipline');*/
             $table->timestamps();
         });
