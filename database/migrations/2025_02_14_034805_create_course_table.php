@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Department;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,16 +15,18 @@ return new class extends Migration
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
 
+            $table->foreignIdFor(Department::class);
+
             $table->string('code');
             $table->string('acronym');
 
             $table->string('description');
             $table->string('major')->nullable();
 
-            $table->string('authority_no');
-            $table->string('accreditation_id');
+            $table->string('authority_no')->nullable();
+            $table->string('accreditation_id')->nullable();
 
-            $table->year('year_granted');
+            $table->year('year_granted')->nullable();
             $table->integer('years');
 
             /*$table->integer('slots');*/
