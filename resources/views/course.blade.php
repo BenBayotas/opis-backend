@@ -95,7 +95,8 @@ Course File
         <td>{{$course->accreditation}}</td>
         <td>{{$course->authority_no}}</td>
         <td>{{$course->year_granted}}</td>
-        <td>{{$course->year}}</td>
+        <td>{{$course->department->program_type->title}}</td>
+        <td>{{$course->years}}</td>
         <td>{{$course->slots}}</td>
     </tr>
     @endforeach

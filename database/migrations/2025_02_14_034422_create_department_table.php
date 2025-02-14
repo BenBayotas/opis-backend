@@ -21,6 +21,15 @@ return new class extends Migration
 
             $table->timestamps();
         });
+
+
+        Schema::create('program_types', function (Blueprint $table) {
+            $table->id();
+
+            $table->string('title');
+
+            $table->timestamps();
+        });
     }
 
     /**
@@ -29,5 +38,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('departments');
+        Schema::dropIfExists('program_types');
     }
 };
