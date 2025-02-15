@@ -31,6 +31,12 @@ class CourseController extends Controller
         //
     }
 
+    public function create()
+    {
+        //
+    }
+
+
     /**
      * Display the specified resource.
      */
@@ -39,6 +45,10 @@ class CourseController extends Controller
         //
     }
 
+    public function edit(string $id)
+    {
+        //
+    }
     /**
      * Update the specified resource in storage.
      */
