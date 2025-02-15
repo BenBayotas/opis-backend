@@ -13,7 +13,10 @@ class CourseController extends Controller
      */
     public function index()
     {
+        # NOTE: departments shouldn't be here, should be in a separate api call
+        # but for now we'll keep it since we're using controller
         $departments = Department::all();
+
         $courses = Course::all();
 
         $data = [
@@ -22,6 +25,10 @@ class CourseController extends Controller
         ];
         return view('course', $data);
     }
+
+    # NOTE: we don't have create and edit functions because I messed up and made resource
+    # controllers
+    # reminder that the create and edit functinos are just the functions that show the forms
 
     /**
      * Store a newly created resource in storage.
