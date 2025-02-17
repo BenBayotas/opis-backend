@@ -34,7 +34,8 @@ return new class extends Migration
             $table->foreignId('category_id');
             $table->integer('tuition_units');
 
-            /*$table->foreginId('attached_fees'); NOTE: will need to do a pivot map for this*/
+            // TODO: when making mock fees tables, put the pivot there
+            /*$table->foreginId('attached_fees'); will need to do a pivot map for this*/
 
             $table->timestamps();
         });
