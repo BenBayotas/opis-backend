@@ -21,7 +21,7 @@ class CourseController extends Controller
             "departments" => $departments,
             "courses" => $courses,
         ];
-        return view('course.course-index',  ['data' => $data]);
+        return view('course.course-index',  $data);
     }
 
     /**
