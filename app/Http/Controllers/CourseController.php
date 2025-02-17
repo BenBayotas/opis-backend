@@ -117,7 +117,7 @@ class CourseController extends Controller
 
         $course->save();
 
-        return redirect()->route('create.create-index')->with('success','Course Updated');
+        return redirect()->route('create.index')->with('success','Course Updated');
     }   
 
     /**
