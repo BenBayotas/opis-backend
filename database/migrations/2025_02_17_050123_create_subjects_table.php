@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('subject_title');
 
             $table->boolean('is_major'); //if is major: check the subject department pivot to see which major it's attached to
+            $table->foreignIdFor(Department::class);
 
             $table->integer('credited_units')->default(0);
             $table->integer('lec_hours')->default(0);
@@ -39,13 +40,6 @@ return new class extends Migration
 
             $table->timestamps();
         });
-
-        Schema::create('subject_department', function (Blueprint $table) {
-            $table->id();
-            $table->foreignIdFor(Subject::class);
-            $table->foreignIdFor(Department::class);
-        });
-
 
         // NOTE: this seems to list all subject codes, so I might have to link
         // it to the subject table at some point

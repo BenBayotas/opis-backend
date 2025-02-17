@@ -21,8 +21,8 @@ class SubjectFactory extends Factory
             'subject_code' => 'cs 171',
             'subject_title' => 'fundamentals of programming',
 
-            'is_major' => false,
-            /*'department_id' => 0,*/
+            'is_major' => true,
+            'department_id' => 1,
 
             'credited_units' => 3,
             'lec_hours' => 2,
