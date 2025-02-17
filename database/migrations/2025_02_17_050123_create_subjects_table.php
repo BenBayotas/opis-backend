@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('subjects', function (Blueprint $table) {
             $table->id();
 
-            $table->foreginId('subject_group_id');
-            $table->string('subject_code');
+            $table->foreignId('subject_group_id');
+            $table->string('subject_code')->nullable();
             $table->string('subject_title');
 
             $table->boolean('is_major'); //if is major: check the subject department pivot to see which major it's attached to
@@ -49,7 +49,7 @@ return new class extends Migration
         /*TODO: need to populate these in seeders*/
         Schema::create('subject_groups', function (Blueprint $table) {
             $table->id();
-            $table->title('title');
+            $table->string('title');
         });
 
         Schema::create('categories', function (Blueprint $table) {
