@@ -22,9 +22,9 @@ return new class extends Migration
 
             $table->boolean('is_major'); //if is major: check the subject department pivot to see which major it's attached to
 
-            $table->integer('credited_units');
-            $table->integer('lec_hours');
-            $table->integer('lab_hours');
+            $table->integer('credited_units')->default(0);
+            $table->integer('lec_hours')->default(0);
+            $table->integer('lab_hours')->default(0);
 
             $table->boolean('special');
             $table->boolean('elective');
@@ -32,7 +32,7 @@ return new class extends Migration
             $table->boolean('is_not_wga');
 
             $table->foreignId('category_id');
-            $table->integer('tuition_units');
+            $table->integer('tuition_units')->default(0);
 
             // TODO: when making mock fees tables, put the pivot there
             /*$table->foreginId('attached_fees'); will need to do a pivot map for this*/
