@@ -46,7 +46,8 @@ return new class extends Migration
         });
 
 
-        /*TODO: need to populate these in seeders*/
+        // NOTE: this seems to list all subject codes, so I might have to link
+        // it to the subject table at some point
         Schema::create('subject_groups', function (Blueprint $table) {
             $table->id();
             $table->string('title');

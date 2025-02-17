@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             ProgramTypeSeeder::class,
+            SubjectGroupSeeder::class,
+            SubjectCategorySeeder::class,
         ]);
         // User::factory(10)->create();
 
