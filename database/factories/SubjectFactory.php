@@ -17,7 +17,24 @@ class SubjectFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'subject_group_id' => 0,
+            'subject_code' => 'cs 171',
+            'subject_title' => 'fundamentals of programming',
+
+            'is_major' => false,
+            /*'department_id' => 0,*/
+
+            'credited_units' => 3,
+            'lec_hours' => 2,
+            'lab_hours' => 3,
+
+            'special' => false,
+            'elective' => false,
+            'no_text_booklet' => false,
+            'is_not_wga' => false,
+
+            'category_id' => 0,
+            'tuition_units' => 5,
         ];
     }
 }
