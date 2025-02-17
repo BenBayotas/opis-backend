@@ -52,7 +52,7 @@ return new class extends Migration
             $table->string('title');
         });
 
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('subject_categories', function (Blueprint $table) {
             $table->id();
             $table->string('title');
         });
