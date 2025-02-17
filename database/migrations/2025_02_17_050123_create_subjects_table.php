@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Department;
+use App\Models\Subject;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -19,8 +20,7 @@ return new class extends Migration
             $table->string('subject_code');
             $table->string('subject_title');
 
-            $table->boolean('is_major');
-            $table->foreignIdFor(Department::class);
+            $table->boolean('is_major'); //if is major: check the subject department pivot to see which major it's attached to
 
             $table->integer('credited_units');
             $table->integer('lec_hours');
@@ -38,6 +38,13 @@ return new class extends Migration
 
             $table->timestamps();
         });
+
+        Schema::create('subject_department', function (Blueprint $table) {
+            $table->id();
+            $table->foreignIdFor(Subject::class);
+            $table->foreignIdFor(Department::class);
+        });
+
 
         /*TODO: need to populate these in seeders*/
         Schema::create('subject_groups', function (Blueprint $table) {
