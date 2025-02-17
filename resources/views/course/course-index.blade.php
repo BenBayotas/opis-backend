@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link
-          rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
-        >
+
     <title>Course Lists</title>
 </head>
 <body>
@@ -15,15 +7,16 @@
 <table>
     <thead>
         <tr>
-            <th >id</th>
-            <th>program code</th>
-            <th>department</th>
-            <th>description</th>
-            <th>major</th>
-            <th>accreditation</th>
-            <th>authority no</th>
-            <th>year granted</th>
-            <th>program type</th>
+            <th>Actions</th>
+            <th >ID</th>
+            <th>Program Code</th>
+            <th>Department</th>
+            <th>Description</th>
+            <th>Major</th>
+            <th>Accreditation</th>
+            <th>Authority No.</th>
+            <th>Year Granted</th>
+            <th>Program Type</th>
             <th>years</th>
             <th>slots</th>
         </tr>
@@ -31,6 +24,8 @@
     <tbody>
         @foreach ($courses as $course)
             <tr>
+                <td>
+                </td> 
                 <td>{{$course->id}}</td>
                 <td>{{$course->code}}</td>
                 <td>{{$course->department->title}}</td>
