@@ -11,3 +11,4 @@ Route::get('/', function () {
 
 Route::get('/', [DepartmentController::class, 'index']);
 Route::get('course/', [CourseController::class, 'index']);
+Route::get('/course-list', [CourseController::class,'index']);
