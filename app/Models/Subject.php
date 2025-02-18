@@ -24,4 +24,53 @@ class Subject extends Model
             ->withPivot('curriculum_semester_area_id', 'quota')
             ->withTimestamps();
     }
+
+    public function prerequisites(): BelongsToMany
+    {
+        return $this->belongsToMany(Subject::class, 'subject_prerequisite', 'subject_id', 'prerequisite_id')
+            ->using(SubjectPrerequisite::class)
+            ->withPivot('curriculum_id')
+            ->withTimestamps();
+    }
+
+    public function prereqFor(): BelongsToMany
+    {
+        // filter for curriculum
+        return $this->belongsToMany(Subject::class, 'subject_prerequisite', 'prerequisite_id', 'subject_id')
+            ->using(SubjectPrerequisite::class)
+            ->withPivot('curriculum_id')
+            ->withTimestamps();
+    }
+
+    public function corequisites(): BelongsToMany
+    {
+        return $this->belongsToMany(Subject::class, 'subject_corequisite', 'subject_id', 'corequisite_id')
+            ->using(SubjectCorequisite::class)
+            ->withPivot('curriculum_id')
+            ->withTimestamps();
+    }
+
+    public function coreqFor(): BelongsToMany
+    {
+        return $this->belongsToMany(Subject::class, 'subject_corequisite', 'corequisite_id', 'subject_id')
+            ->using(SubjectCorequisite::class)
+            ->withPivot('curriculum_id')
+            ->withTimestamps();
+    }
+
+    public function equivalents(): BelongsToMany
+    {
+        return $this->belongsToMany(Subject::class, 'subject_equivalent', 'subject_id', 'equivalent_id')
+            ->using(SubjectEquivalent::class)
+            ->withPivot('curriculum_id')
+            ->withTimestamps();
+    }
+
+    public function equivFor(): BelongsToMany
+    {
+        return $this->belongsToMany(Subject::class, 'subject_equivalent', 'equivalent_id', 'subject_id')
+            ->using(SubjectEquivalent::class)
+            ->withPivot('curriculum_id')
+            ->withTimestamps();
+    }
 }
