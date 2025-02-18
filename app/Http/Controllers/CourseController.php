@@ -60,13 +60,13 @@ class CourseController extends Controller
 
     $course->save();
 
-    return redirect('course.course-index')->with('success', 'Course Added');
+    return redirect('course.index')->with('success', 'Course Added');
 }
 
     public function create()
     {   
         $departments = Department::all();
-        return view('course.course-create', compact('departments'));
+        return view('course.create', compact('departments'));
     }
 
 
@@ -82,7 +82,13 @@ class CourseController extends Controller
     {
         $course = Course::findOrFail($id);
         $departments = Department::all();
-        return view('course.course-edit', compact('departments', 'course'));
+
+        if(request()->ajax()) {
+            return view('course.partials.edit-form', compact('course', 'departments'));
+        }
+    
+        // Otherwise, load the full edit page (if needed)
+        return view('course.course-edit', compact('course', 'departments'));
     }
     /**
      * Update the specified resource in storage.
@@ -117,7 +123,7 @@ class CourseController extends Controller
 
         $course->save();
 
-        return redirect()->route('create.index')->with('success','Course Updated');
+        return redirect()->route('course.index')->with('success','Course Updated');
     }   
 
     /**
