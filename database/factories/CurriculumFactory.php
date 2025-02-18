@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Course;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,8 +17,12 @@ class CurriculumFactory extends Factory
      */
     public function definition(): array
     {
+        $year = rand(10, 98);
+        $curYear = strval($year) . strval($year + 1);
+
         return [
-            //
+            'course_id' => Course::factory()->create(),
+            'curriculum_year' => $curYear,
         ];
     }
 }

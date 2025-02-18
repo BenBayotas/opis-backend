@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             ProgramTypeSeeder::class,
             SubjectGroupSeeder::class,
             SubjectCategorySeeder::class,
+            CurriculumSeeder::class,
         ]);
         // User::factory(10)->create();
 
