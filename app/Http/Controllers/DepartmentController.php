@@ -24,10 +24,21 @@ class DepartmentController extends Controller
         //
     }
 
+    public function create()
+    {
+        //
+    }
+
+
     /**
      * Display the specified resource.
      */
     public function show(Department $department)
+    {
+        //
+    }
+
+    public function edit(string $id)
     {
         //
     }
