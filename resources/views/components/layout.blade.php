@@ -7,7 +7,7 @@
         
         <title>{{ $title }}</title>
     </head>
-    <body>
+    <body class="container">
         <script src="https://unpkg.com/htmx.org@1.9.2"></script>
         {{ $slot }}
     </body>
