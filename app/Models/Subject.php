@@ -42,4 +42,19 @@ class Subject extends Model
             ->withTimestamps();
     }
 
+    public function corequisites(): BelongsToMany
+    {
+        return $this->belongsToMany(Subject::class, 'subject_corequisite', 'subject_id', 'corequisite_id')
+            ->using(SubjectCorequisite::class)
+            ->withPivot('curriculum_id')
+            ->withTimestamps();
+    }
+
+    public function coreqFor(): BelongsToMany
+    {
+        return $this->belongsToMany(Subject::class, 'subject_corequisite', 'corequisite_id', 'subject_id')
+            ->using(SubjectCorequisite::class)
+            ->withPivot('curriculum_id')
+            ->withTimestamps();
+    }
 }
