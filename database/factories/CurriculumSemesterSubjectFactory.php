@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\CurriculumSemester;
+use App\Models\Subject;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,10 @@ class CurriculumSemesterSubjectFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'curriculum_semester_id' => CurriculumSemester::factory()->create(),
+            'subject_id' => Subject::factory()->create(),
+            'curriculum_semester_area_id' => 0,
+            'quota' => 2.4,
         ];
     }
 }
