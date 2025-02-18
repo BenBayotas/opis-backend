@@ -11,6 +11,7 @@
     <table>
         <thead>
             <tr>
+                <th>Actions</th>
                 <th>ID</th>
                 <th>Subject Code</th>
                 <th>Subject Title</th>
@@ -24,12 +25,15 @@
                 <th>No Text Booklet</th>
                 <th>Is Not WGA</th>
                 <th>Tuition Units</th>
-                <th>Actions</th>
+                
             </tr>
         </thead>
         <tbody>
             @foreach($subjects as $subject)
                 <tr>
+                    <td>
+                        <a role="button" href="{{ route('subject.edit', $subject->id) }}">Edit</a>
+                    </td>
                     <td>{{ $subject->id }}</td>
                     <td>{{ $subject->subject_code }}</td>
                     <td>{{ $subject->subject_title }}</td>
@@ -43,9 +47,7 @@
                     <td>{{ $subject->no_text_booklet ? 'Yes' : 'No' }}</td>
                     <td>{{ $subject->is_not_wga ? 'Yes' : 'No' }}</td>
                     <td>{{ $subject->tuition_units }}</td>
-                    <td>
-                        <a role="button" href="{{ route('subject.edit', $subject->id) }}">Edit</a>
-                    </td>
+                    
                     
                 </tr>
             @endforeach
