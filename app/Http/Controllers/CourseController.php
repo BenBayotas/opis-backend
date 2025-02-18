@@ -60,7 +60,7 @@ class CourseController extends Controller
 
     $course->save();
 
-    return redirect('course.index')->with('success', 'Course Added');
+    return redirect()->route('course.index')->with('success', 'Course Added');
 }
 
     public function create()
