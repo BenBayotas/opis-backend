@@ -57,4 +57,20 @@ class Subject extends Model
             ->withPivot('curriculum_id')
             ->withTimestamps();
     }
+
+    public function equivalents(): BelongsToMany
+    {
+        return $this->belongsToMany(Subject::class, 'subject_equivalent', 'subject_id', 'equivalent_id')
+            ->using(SubjectEquivalent::class)
+            ->withPivot('curriculum_id')
+            ->withTimestamps();
+    }
+
+    public function equivFor(): BelongsToMany
+    {
+        return $this->belongsToMany(Subject::class, 'subject_equivalent', 'equivalent_id', 'subject_id')
+            ->using(SubjectEquivalent::class)
+            ->withPivot('curriculum_id')
+            ->withTimestamps();
+    }
 }
