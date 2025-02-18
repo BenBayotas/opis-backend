@@ -24,4 +24,22 @@ class Subject extends Model
             ->withPivot('curriculum_semester_area_id', 'quota')
             ->withTimestamps();
     }
+
+    public function prerequisites(): BelongsToMany
+    {
+        return $this->belongsToMany(Subject::class, 'subject_prerequisite', 'subject_id', 'prerequisite_id')
+            ->using(SubjectPrerequisite::class)
+            ->withPivot('curriculum_id')
+            ->withTimestamps();
+    }
+
+    public function prereqFor(): BelongsToMany
+    {
+        // filter for curriculum
+        return $this->belongsToMany(Subject::class, 'subject_prerequisite', 'prerequisite_id', 'subject_id')
+            ->using(SubjectPrerequisite::class)
+            ->withPivot('curriculum_id')
+            ->withTimestamps();
+    }
+
 }
