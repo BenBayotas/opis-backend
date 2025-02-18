@@ -12,7 +12,13 @@ class CurriculumController extends Controller
      */
     public function index()
     {
-        //
+        $curriculums = Curriculum::all();
+
+        $data = [
+            "curriculums" => $curriculums,
+        ];
+
+        return view('curriculum.curriculum-index', $data);
     }
 
     /**
