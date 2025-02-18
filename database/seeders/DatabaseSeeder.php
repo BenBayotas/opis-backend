@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Course;
+use App\Models\Subject;
 use App\Models\Department;
 use App\Models\ProgramType;
 use App\Models\User;
@@ -18,6 +19,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             ProgramTypeSeeder::class,
+            SubjectGroupSeeder::class,
+            SubjectCategorySeeder::class,
         ]);
         // User::factory(10)->create();
 
@@ -28,5 +31,6 @@ class DatabaseSeeder extends Seeder
 
         Course::factory()->count(1)->create();
         Department::factory()->count(10)->create();
+        Subject::factory()->count(2)->create();
     }
 }

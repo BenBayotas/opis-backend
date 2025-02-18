@@ -5,7 +5,11 @@ Course File
 
 <form action="" method="POST">
     <div class="grid">
-        
+    <!--
+        NOTE: this form should technically have program type, dean head etc
+        and it gets auto filled if you pick a department but we probably shouldn't
+        add dependencies like htmx for that, so for now it's just this
+    -->
         <label>
             Department
             <select name="department">
