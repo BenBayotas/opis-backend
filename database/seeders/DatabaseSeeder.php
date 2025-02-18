@@ -2,10 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Course;
-use App\Models\Subject;
 use App\Models\Department;
-use App\Models\ProgramType;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -21,6 +18,8 @@ class DatabaseSeeder extends Seeder
             ProgramTypeSeeder::class,
             SubjectGroupSeeder::class,
             SubjectCategorySeeder::class,
+
+            CurriculumSemesterSubjectSeeder::class
         ]);
         // User::factory(10)->create();
 
@@ -29,8 +28,6 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
 
-        Course::factory()->count(1)->create();
         Department::factory()->count(10)->create();
-        Subject::factory()->count(2)->create();
     }
 }

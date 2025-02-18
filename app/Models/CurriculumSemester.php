@@ -7,19 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Subject extends Model
+class CurriculumSemester extends Model
 {
-    /** @use HasFactory<\Database\Factories\SubjectFactory> */
     use HasFactory;
 
-    public function department(): BelongsTo
+    public function curriculumYear(): BelongsTo
     {
-        return $this->belongsTo(Department::class);
+        return $this->belongsTo(CurriculumYear::class);
     }
 
-    public function semesters(): BelongsToMany
+    public function subjects(): BelongsToMany
     {
-        return $this->belongsToMany(CurriculumSemester::class)
+        return $this->belongsToMany(Subject::class)
             ->using(CurriculumSemesterSubject::class)
             ->withPivot('curriculum_semester_area_id', 'quota')
             ->withTimestamps();
