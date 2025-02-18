@@ -26,7 +26,7 @@ class SubjectController extends Controller
     {
         $departments = Department::all();
         $subjectGroups =DB::table('subject_groups')->get();
-        $subjectCategies = DB::table('subject_categories')->get();
+        $subjectCategories = DB::table('subject_categories')->get();
 
         return view('subject.subject-create', compact('departments','subjectGroups','subjectCategories'));
 

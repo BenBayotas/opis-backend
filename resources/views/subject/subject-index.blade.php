@@ -7,7 +7,7 @@
         Subject File
     </h1>
 
-
+    <a href="{{ route('subject.create') }}">Add New Subject</a>
     <table>
         <thead>
             <tr>
@@ -43,6 +43,10 @@
                     <td>{{ $subject->no_text_booklet ? 'Yes' : 'No' }}</td>
                     <td>{{ $subject->is_not_wga ? 'Yes' : 'No' }}</td>
                     <td>{{ $subject->tuition_units }}</td>
+                    <td>
+                        <a role="button" href="{{ route('subject.edit', $subject->id) }}">Edit</a>
+                    </td>
+                    
                 </tr>
             @endforeach
         </tbody>
