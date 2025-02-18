@@ -15,6 +15,8 @@ Route::put('/course/{id}', [CourseController::class, 'update'])->name('course.up
 Route::delete('/course/{id}', [CourseController::class, 'destroy'])->name('course.destroy');
 
 // curriculum
-Route::get('/curriculum', [CurriculumController::class, 'index']);
+Route::get('/curriculum', [CurriculumController::class, 'index'])->name('curriculum.index');
+
+
 
 

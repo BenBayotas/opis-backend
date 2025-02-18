@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use App\Models\Curriculum;
 use Illuminate\Http\Request;
 
@@ -13,13 +14,17 @@ class CurriculumController extends Controller
     public function index()
     {
         $curriculums = Curriculum::all();
+        $courses = Course::all(); // NOTE: remove in transition
 
         $data = [
             "curriculums" => $curriculums,
+            "courses" => $courses,
         ];
 
         return view('curriculum.curriculum-index', $data);
     }
+
+    public function search() {}
 
     /**
      * Show the form for creating a new resource.
