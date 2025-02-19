@@ -21,10 +21,8 @@ class CurriculumController extends Controller
             "courses" => $courses,
         ];
 
-        return view('curriculum.curriculum-index', $data);
+        return view('curriculum.index', $data);
     }
-
-    public function search() {}
 
     /**
      * Show the form for creating a new resource.
@@ -45,9 +43,15 @@ class CurriculumController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Curriculum $curriculum)
+    public function show(Request $request)
     {
-        //
+        $curriculum_id = $request->query('curriculum');
+        $curriculum = Curriculum::find($curriculum_id);
+
+        $data = [
+            "curriculum" => $curriculum,
+        ];
+        return view('curriculum.show', $data);
     }
 
     /**
