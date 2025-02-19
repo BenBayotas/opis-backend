@@ -6,6 +6,7 @@ use App\Models\Course;
 use App\Models\Curriculum;
 use App\Models\CurriculumSemester;
 use App\Models\CurriculumYear;
+use App\Models\Subject;
 use Illuminate\Http\Request;
 
 class CurriculumController extends Controller
@@ -76,7 +77,7 @@ class CurriculumController extends Controller
             }
         }
 
-        return redirect()->route('curriculum.index')->with('success', 'new curriculum adedd');
+        return redirect()->route('curriculum.index')->with('success', 'New curriculum added');
     }
 
     /**
@@ -87,10 +88,10 @@ class CurriculumController extends Controller
         $curriculum_id = $request->query('curriculum');
         $curriculum = Curriculum::find($curriculum_id);
 
-        $data = [
-            "curriculum" => $curriculum,
-        ];
-        return view('curriculum.show', $data);
+        $curriculum->load('course, curriculumYears.semesters.subjects');
+
+        $subjects = Subject::all();
+        return view('curriculum.show', compact('curriculum', 'subjects'));
     }
 
     /**
@@ -118,5 +119,46 @@ class CurriculumController extends Controller
     public function destroy(Curriculum $curriculum)
     {
         //
+    }
+
+    public function addSubjects(Request $request, Curriculum $curriculum){
+        $data = $request->validate([
+            'year'     => 'required|integer',
+            'semester' => 'required|integer',
+            'subjects' => 'required|array',
+            'subjects.*' => 'exists:subjects,id',
+        ]);
+
+        $curriculumYear = $curriculum->curriculumYears()->where('year', $data['year'])->first();
+        if (!$curriculumYear) {
+            return response()->json(['message' => 'Curriculum year not found'], 404);
+        }
+
+        $semesterTitles = [
+            1 => 'first',
+            2 => 'second',
+            3 => 'summer'
+        ];
+        $semTitle = $semesterTitles[$data['semester']] ?? null;
+        if (!$semTitle) {
+            return response()->json(['message' => 'Invalid semester value'], 400);
+        }
+
+        $curriculumSemester = $curriculumYear->semesters()->where('title', $semTitle)->first();
+        if (!$curriculumSemester) {
+            return response()->json(['message' => 'Curriculum semester not found'], 404);
+        }
+
+        $subjectsToAttach = [];
+        foreach ($data['subjects'] as $subjectId) {
+            $subjectsToAttach[$subjectId] = [
+                'curriculum_semester_area_id' => 1, // default or adjust as needed
+                'quota' => 0, // default or adjust as needed
+            ];
+        }
+
+        $curriculumSemester->subjects()->syncWithoutDetaching($subjectsToAttach);
+
+        return response()->json(['message' => 'Subjects added successfully']);
     }
 }
