@@ -10,7 +10,6 @@
 
         <label>
             Year
-            <!--TODO: change this to year_implemented once thing is merged -->
             <input name="year_implemented" type="number" value="{{ old('year_implemented') ? old('year_implemented') : $curriculum->year_implemented }}" required>
         </label>
 
