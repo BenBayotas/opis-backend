@@ -37,5 +37,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('curriculum_semester_subject');
+        Schema::dropIfExists('curriculum_semester_areas');
     }
 };

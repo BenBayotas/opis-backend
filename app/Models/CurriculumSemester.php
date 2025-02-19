@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class CurriculumSemester extends Model
 {
     use HasFactory;
+    
+    protected $fillable = ['title', 'curriculum_year_id'];
 
     public function curriculumYear(): BelongsTo
     {
@@ -18,7 +20,7 @@ class CurriculumSemester extends Model
 
     public function subjects(): BelongsToMany
     {
-        return $this->belongsToMany(Subject::class)
+        return $this->belongsToMany(Subject::class, 'curriculum_semester_subject')
             ->using(CurriculumSemesterSubject::class)
             ->withPivot('curriculum_semester_area_id', 'quota')
             ->withTimestamps();

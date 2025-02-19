@@ -37,7 +37,7 @@ class Subject extends Model
 
     public function semesters(): BelongsToMany
     {
-        return $this->belongsToMany(CurriculumSemester::class)
+        return $this->belongsToMany(CurriculumSemester::class, 'curriculum_semester_subject')
             ->using(CurriculumSemesterSubject::class)
             ->withPivot('curriculum_semester_area_id', 'quota')
             ->withTimestamps();
