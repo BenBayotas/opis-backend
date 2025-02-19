@@ -12,6 +12,9 @@ class CurriculumYear extends Model
     /** @use HasFactory<\Database\Factories\CurriculumYearFactory> */
     use HasFactory;
 
+    protected $fillable = ['year', 'curriculum_id'];
+
+
     public function semesters(): HasMany
     {
         return $this->hasMany(CurriculumSemester::class);

@@ -87,9 +87,7 @@ class CurriculumController extends Controller
     {
         $curriculum_id = $request->query('curriculum');
         $curriculum = Curriculum::find($curriculum_id);
-
-        $curriculum->load('course, curriculumYears.semesters.subjects');
-
+        $curriculum->load('course', 'curriculumYears.semesters.subjects');
         $subjects = Subject::all();
         return view('curriculum.show', compact('curriculum', 'subjects'));
     }

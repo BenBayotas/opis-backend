@@ -3,34 +3,32 @@
         Curriculum Management
     </x-slot:title>
 
+    <h1>Curriculum Management</h1>
+    
+    <a href="{{ route('curriculum.create') }}">Create a New Curriculum</a>
 
-    <!--separate because it's not part of the form, it just iflters the course dropdown-->
-    <label>
-    Course:
-        <select name="course" required>
-        @foreach ($courses as $course)
-            <option value="{{ $course->id }}">{{ $course->description }}</option>
-        @endforeach
-        </select>
-    </label>
-
-    <!--this feels weird, I want to do a get request so it should probably-->
-    <!--be an anchor, dynamically change form action-->
-    <form action="{{ route('curriculum.show')}}" method="GET">
-        <label>
-        <!--NOTE: lists all curriculum years, will probably want to use-->
-        <!--htmx to auto generate this-->
-        Curriculum:
-            <select name="curriculum" required>
-                <option value="" disabled selected>Select curriculum</option>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Curriculum Year</th>
+                <th>Course</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
             @foreach ($curriculums as $curriculum)
-                <option value="{{ $curriculum->id }}">{{ $curriculum->curriculum_year }}</option>
+                <tr>
+                    <td>{{ $curriculum->id }}</td>
+                    <td>{{ $curriculum->curriculum_year }}</td>
+                    <td>{{ $curriculum->course->description ?? 'N/A' }}</td>
+                    <td>
+                        <a href="{{ route('curriculum.show', ['curriculum' => $curriculum->id]) }}">View</a>
+                        <a href="{{ route('curriculum.edit', $curriculum->id) }}">Edit</a>
+                    </td>
+                </tr>
             @endforeach
-            </select>
-        </label>
-
-        <input type="submit" value="view curriculum">
-    </form>
-
-    <a role="button" href="{{ route('curriculum.create') }}">Create a new Curriculum</a>
+        </tbody>
+    </table>
 </x-layout>
+
