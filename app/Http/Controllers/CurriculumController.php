@@ -159,4 +159,12 @@ class CurriculumController extends Controller
 
         return response()->json(['message' => 'Subjects added successfully']);
     }
+
+    public function removeSubject(Request $request, Curriculum $curriculum, $semester, $subject)
+    {
+        // Optionally, add logic to verify that the semester belongs to this curriculum.
+        $curriculumSemester = \App\Models\CurriculumSemester::findOrFail($semester);
+        $curriculumSemester->subjects()->detach($subject);
+        return response()->json(['message' => 'Subject removed successfully']);
+    }
 }

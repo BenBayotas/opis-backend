@@ -120,11 +120,12 @@
                             <th>LEC</th>
                             <th>LAB</th>
                             <th>Credited Units</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($sem->subjects as $sub)
-                            <tr>
+                            <tr id="semester-{{ $sem->id }}-subject-{{ $sub->id }}">
                                 <td>{{ $sub->subject_code }}</td>
                                 <td>{{ $sub->subject_title }}</td>
                                 <td>{{ $sub->pivot->curriculum_semester_area_id }}</td>
@@ -132,6 +133,9 @@
                                 <td>{{ $sub->lec_hours }}</td>
                                 <td>{{ $sub->lab_hours }}</td>
                                 <td>{{ $sub->credited_units }}</td>
+                                <td>
+                                    <button class="delete-subject" data-semester-id="{{ $sem->id }}" data-subject-id="{{ $sub->id }}">Delete</button>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -139,6 +143,11 @@
             @endforeach
         </div>
     @endforeach
+
+    <!-- Define a JS variable for the curriculum id -->
+    <script>
+        const curriculumId = {{ $curriculum->id }};
+    </script>
 
     <!-- Front-End Integration & AJAX -->
     <script>
@@ -222,6 +231,41 @@
                 .catch(error => {
                     console.error('Error:', error);
                     alert('Error adding subjects.');
+                });
+            });
+
+            // Attach event listeners to delete buttons for each added subject.
+            document.querySelectorAll('.delete-subject').forEach(button => {
+                button.addEventListener('click', function () {
+                    const semesterId = this.dataset.semesterId;
+                    const subjectId = this.dataset.subjectId;
+
+                    if (!confirm('Are you sure you want to delete this subject from the curriculum?')) {
+                        return;
+                    }
+
+                    // Send an AJAX DELETE request.
+                    fetch(`{{ url('/curriculum') }}/${curriculumId}/semester/${semesterId}/subject/${subjectId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        }
+                    })
+                    .then(response => {
+                        if (!response.ok) throw new Error('Network response was not ok');
+                        return response.json();
+                    })
+                    .then(data => {
+                        alert(data.message);
+                        // Remove the row from the table.
+                        const row = document.getElementById(`semester-${semesterId}-subject-${subjectId}`);
+                        if (row) row.remove();
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Error removing subject.');
+                    });
                 });
             });
         });
