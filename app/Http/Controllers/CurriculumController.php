@@ -7,6 +7,7 @@ use App\Models\Curriculum;
 use App\Models\CurriculumSemester;
 use App\Models\CurriculumYear;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class CurriculumController extends Controller
 {
@@ -96,10 +97,14 @@ class CurriculumController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Curriculum $curriculum)
+    public function edit($id)
     {
+        $curriculum = Curriculum::findOrFail($id);
+        $courses = Course::all();;
+
         $data = [
             "curriculum" => $curriculum,
+            "courses" => $courses,
         ];
         return view('curriculum.edit', $data);
     }
@@ -107,9 +112,21 @@ class CurriculumController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Curriculum $curriculum)
+    public function update(Request $request, $id)
     {
-        //
+        $curricula = Curriculum::all();
+
+        $request->validate([
+            'year_implemented' => ['required', 'digits:4', Rule::unique('curricula', 'curriculum_year')->ignore($id)],
+            'course' => ['required']
+        ]);
+
+        $curriculum = Curriculum::findOrFail($id);
+        $curriculum->course_id = $request->input('course');
+        $curriculum->curriculum_year = $request->input('year_implemented');
+        $curriculum->save();
+
+        return redirect()->route('curriculum.index')->with('success', 'curriculum updated');
     }
 
     /**
