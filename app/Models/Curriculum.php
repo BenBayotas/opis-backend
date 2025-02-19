@@ -11,8 +11,9 @@ class Curriculum extends Model
     /** @use HasFactory<\Database\Factories\CurriculumFactory> */
     use HasFactory;
 
-    public function curriculumYear(): HasMany
+    public function curriculumYears(): HasMany
     {
-        return $this->hasMany(CurriculumYear::class);
+        return $this->hasMany(CurriculumYear::class)
+            ->orderBy('year', 'asc');
     }
 }
