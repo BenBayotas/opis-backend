@@ -1,7 +1,12 @@
 <x-layout>
     <x-slot:title>
-        Curriculum
+        {{ $curriculum->curriculum_year }}
     </x-slot:title>
+
+
+    <h1>Curriculum {{ $curriculum->curriculum_year }} of {{ $curriculum->course->description }}</h1>
+
+    <a role="button" href="{{ route('curriculum.edit', $curriculum) }}">Edit</a>
 
     @foreach ($curriculum->curriculumYears as $year)
     <div>
