@@ -68,8 +68,8 @@
                         <th>Select</th>
                         <th>Subject Code</th>
                         <th>Subject Title</th>
-                        <th>Is Major</th>
-                        <th>Credited Units</th>
+                        {{-- <th>Is Major</th>
+                        <th>Credited Units</th> --}}
                     </tr>
                 </thead>
                 <tbody>
@@ -80,8 +80,8 @@
                             </td>
                             <td>{{ $subject->subject_code }}</td>
                             <td>{{ $subject->subject_title }}</td>
-                            <td>{{ $subject->is_major ? 'Yes' : 'No' }}</td>
-                            <td>{{ $subject->credited_units }}</td>
+                            {{-- <td>{{ $subject->is_major ? 'Yes' : 'No' }}</td>
+                            <td>{{ $subject->credited_units }}</td> --}}
                         </tr>
                     @endforeach
                 </tbody>
