@@ -78,8 +78,8 @@
                             <td>
                                 <input type="checkbox" class="subject-checkbox" value="{{ $subject->id }}">
                             </td>
-                            <td>{{ $subject->subject_code }}</td>
-                            <td>{{ $subject->subject_title }}</td>
+                            <td>{{ $subject->code }}</td>
+                            <td>{{ $subject->title }}</td>
                             {{-- <td>{{ $subject->is_major ? 'Yes' : 'No' }}</td>
                             <td>{{ $subject->credited_units }}</td> --}}
                         </tr>
@@ -126,8 +126,8 @@
                     <tbody>
                         @foreach ($sem->subjects as $sub)
                             <tr id="semester-{{ $sem->id }}-subject-{{ $sub->id }}">
-                                <td>{{ $sub->subject_code }}</td>
-                                <td>{{ $sub->subject_title }}</td>
+                                <td>{{ $sub->code }}</td>
+                                <td>{{ $sub->title }}</td>
                                 <td>{{ $sub->pivot->curriculum_semester_area_id }}</td>
                                 <td>{{ $sub->pivot->quota }}</td>
                                 <td>{{ $sub->lec_hours }}</td>
