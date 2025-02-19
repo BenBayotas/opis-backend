@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Subject;
+use App\Models\Department;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class SubjectController extends Controller
@@ -12,7 +14,9 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        //
+        $subjects = Subject::with('department')->get();
+        return view('subject.subject-index', compact('subjects'));
+
     }
 
     /**
@@ -20,7 +24,12 @@ class SubjectController extends Controller
      */
     public function create()
     {
-        //
+        $departments = Department::all();
+        $subjectGroups =DB::table('subject_groups')->get();
+        $subjectCategories = DB::table('subject_categories')->get();
+
+        return view('subject.subject-create', compact('departments','subjectGroups','subjectCategories'));
+
     }
 
     /**
@@ -28,7 +37,27 @@ class SubjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'subject_group_id' => 'required|exists:subject_groups,id',
+            'subject_code'     => 'nullable|string',
+            'subject_title'    => 'required|string',
+            'is_major'         => 'required|boolean',
+            'department_id'    => 'required|exists:departments,id',
+            'credited_units'   => 'required|integer',
+            'lec_hours'        => 'required|integer',
+            'lab_hours'        => 'required|integer',
+            'special'          => 'required|boolean',
+            'elective'         => 'required|boolean',
+            'no_text_booklet'  => 'required|boolean',
+            'is_not_wga'       => 'required|boolean',
+            'category_id'      => 'required|exists:subject_categories,id',
+            'tuition_units'    => 'required|integer',
+        ]);
+
+        // Create the subject using mass assignment.
+        Subject::create($validated);
+
+        return redirect()->route('subject.index')->with('success', 'Subject Added');
     }
 
     /**
@@ -36,7 +65,7 @@ class SubjectController extends Controller
      */
     public function show(Subject $subject)
     {
-        //
+        return view('subject.subject-show', compact('subject'));
     }
 
     /**
@@ -44,7 +73,11 @@ class SubjectController extends Controller
      */
     public function edit(Subject $subject)
     {
-        //
+        $departments = Department::all();
+        $subjectGroups = DB::table('subject_groups')->get();
+        $subjectCategories = DB::table('subject_categories')->get();
+
+        return view('subject.subject-edit', compact('subject', 'departments', 'subjectGroups', 'subjectCategories'));
     }
 
     /**
@@ -52,7 +85,27 @@ class SubjectController extends Controller
      */
     public function update(Request $request, Subject $subject)
     {
-        //
+        $validated = $request->validate([
+            'subject_group_id' => 'required|exists:subject_groups,id',
+            'subject_code'     => 'nullable|string',
+            'subject_title'    => 'required|string',
+            'is_major'         => 'required|boolean',
+            'department_id'    => 'required|exists:departments,id',
+            'credited_units'   => 'required|integer',
+            'lec_hours'        => 'required|integer',
+            'lab_hours'        => 'required|integer',
+            'special'          => 'required|boolean',
+            'elective'         => 'required|boolean',
+            'no_text_booklet'  => 'required|boolean',
+            'is_not_wga'       => 'required|boolean',
+            'category_id'      => 'required|exists:subject_categories,id',
+            'tuition_units'    => 'required|integer',
+        ]);
+
+        // Update the subject record.
+        $subject->update($validated);
+
+        return redirect()->route('subject.index')->with('success', 'Subject Updated');
     }
 
     /**

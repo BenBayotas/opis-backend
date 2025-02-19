@@ -12,6 +12,24 @@ class Subject extends Model
     /** @use HasFactory<\Database\Factories\SubjectFactory> */
     use HasFactory;
 
+
+    protected $fillable = [
+        'subject_group_id',
+        'subject_code',
+        'subject_title',
+        'is_major',
+        'department_id',
+        'credited_units',
+        'lec_hours',
+        'lab_hours',
+        'special',
+        'elective',
+        'no_text_booklet',
+        'is_not_wga',
+        'category_id',
+        'tuition_units',
+    ];
+
     public function department(): BelongsTo
     {
         return $this->belongsTo(Department::class);
