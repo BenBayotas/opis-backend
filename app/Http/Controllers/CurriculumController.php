@@ -46,7 +46,7 @@ class CurriculumController extends Controller
         $curricula = Curriculum::all();
 
         $request->validate([
-            'year' => ['required', 'digits:4', 'unique:curricula,curriculum_year'],
+            'year' => ['required', 'digits:4', 'unique:curricula,year_implemented'],
             'course' => ['required']
         ]);
 
@@ -117,13 +117,13 @@ class CurriculumController extends Controller
         $curricula = Curriculum::all();
 
         $request->validate([
-            'year_implemented' => ['required', 'digits:4', Rule::unique('curricula', 'curriculum_year')->ignore($id)],
+            'year_implemented' => ['required', 'digits:4', Rule::unique('curricula', 'year_implemented')->ignore($id)],
             'course' => ['required']
         ]);
 
         $curriculum = Curriculum::findOrFail($id);
         $curriculum->course_id = $request->input('course');
-        $curriculum->curriculum_year = $request->input('year_implemented');
+        $curriculum->year_implemented = $request->input('year_implemented');
         $curriculum->save();
 
         return redirect()->route('curriculum.index')->with('success', 'curriculum updated');

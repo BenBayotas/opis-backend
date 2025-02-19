@@ -1,6 +1,6 @@
 <x-layout>
     <x-slot:title>
-        Edit {{ $curriculum->curriculum_year }}
+        Edit {{ $curriculum->year_implemented }}
     </x-slot:title>
 
     <h1>Edit Curriculum</h1>
@@ -11,7 +11,7 @@
         <label>
             Year
             <!--TODO: change this to year_implemented once thing is merged -->
-            <input name="year_implemented" type="number" value="{{ old('year_implemented') ? old('year_implemented') : $curriculum->curriculum_year }}" required>
+            <input name="year_implemented" type="number" value="{{ old('year_implemented') ? old('year_implemented') : $curriculum->year_implemented }}" required>
         </label>
 
         <label>
