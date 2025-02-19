@@ -51,7 +51,7 @@ class CurriculumController extends Controller
 
         $curriculum = new Curriculum;
         $curriculum->course_id = $request->input('course');
-        $curriculum->curriculum_year = $request->input('year');
+        $curriculum->year_implemented = $request->input('year');
         $curriculum->save();
 
         $course = Course::findOrFail($request->input('course'));
