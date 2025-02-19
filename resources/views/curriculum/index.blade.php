@@ -32,4 +32,6 @@
 
     <input type="submit" value="view curriculum">
     </form>
+
+    <a role="button" href="{{ route('curriculum.create') }}">Create a new Curriculum</a>
 </x-layout>

@@ -29,7 +29,10 @@ class CurriculumController extends Controller
      */
     public function create()
     {
-        //
+        $data = [
+            "courses" => Course::all()
+        ];
+        return view('curriculum.create', $data);
     }
 
     /**
@@ -37,7 +40,19 @@ class CurriculumController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $curricula = Curriculum::all();
+
+        $request->validate([
+            'year' => ['required', 'digits:4', 'unique:curricula,curriculum_year'],
+            'course' => ['required']
+        ]);
+
+        $curriculum = new Curriculum;
+        $curriculum->course_id = $request->input('course');
+        $curriculum->curriculum_year = $request->input('year');
+        $curriculum->save();
+
+        return redirect()->route('curriculum.index')->with('success', 'new curriculum adedd');
     }
 
     /**
