@@ -18,8 +18,8 @@ class SubjectFactory extends Factory
     {
         return [
             'subject_group_id' => 0,
-            'subject_code' => 'cs' .  strval(rand(100, 200)),
-            'subject_title' => fake()->jobTitle(),
+            'code' => 'cs' .  strval(rand(100, 200)),
+            'title' => fake()->jobTitle(),
 
             'is_major' => true,
             'department_id' => 1,

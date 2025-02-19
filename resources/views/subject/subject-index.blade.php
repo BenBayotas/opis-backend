@@ -35,8 +35,8 @@
                         <a role="button" href="{{ route('subject.edit', $subject->id) }}">Edit</a>
                     </td>
                     <td>{{ $subject->id }}</td>
-                    <td>{{ $subject->subject_code }}</td>
-                    <td>{{ $subject->subject_title }}</td>
+                    <td>{{ $subject->code }}</td>
+                    <td>{{ $subject->title }}</td>
                     <td>{{ $subject->department->title ?? 'N/A' }}</td>
                     <td>{{ $subject->credited_units }}</td>
                     <td>{{ $subject->lec_hours }}</td>

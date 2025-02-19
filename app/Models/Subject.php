@@ -15,8 +15,8 @@ class Subject extends Model
 
     protected $fillable = [
         'subject_group_id',
-        'subject_code',
-        'subject_title',
+        'code',
+        'title',
         'is_major',
         'department_id',
         'credited_units',

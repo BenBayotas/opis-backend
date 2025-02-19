@@ -25,12 +25,12 @@
             
             <label>
                 Subject Code
-                <input type="text" name="subject_code" value="{{ old('subject_code') }}">
+                <input type="text" name="code" value="{{ old('code') }}">
             </label>
             
             <label>
                 Subject Title
-                <input type="text" name="subject_title" value="{{ old('subject_title') }}">
+                <input type="text" name="title" value="{{ old('title') }}">
             </label>
             
             <label>

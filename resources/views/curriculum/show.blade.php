@@ -1,10 +1,10 @@
 <x-layout>
     <x-slot:title>
-        {{ $curriculum->curriculum_year }}
+        {{ $curriculum->year_implemented }}
     </x-slot:title>
 
 
-    <h1>Curriculum {{ $curriculum->curriculum_year }} of {{ $curriculum->course->description }}</h1>
+    <h1>Curriculum {{ $curriculum->year_implemented }} of {{ $curriculum->course->description }}</h1>
 
     <a role="button" href="{{ route('curriculum.edit', $curriculum) }}">Edit</a>
 
@@ -28,8 +28,8 @@
 
             @foreach ($sem->subjects as $sub)
             <tr>
-                <td>{{ $sub->subject_code }}</td>
-                <td>{{ $sub->subject_title }}</td>
+                <td>{{ $sub->code }}</td>
+                <td>{{ $sub->title }}</td>
                 <!--areas aren't populated yet but it should work-->
                 <td>wip</td>
                 <td>{{ $sub->pivot->quota }}</td>

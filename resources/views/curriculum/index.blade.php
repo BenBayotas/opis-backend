@@ -24,7 +24,7 @@
             <select name="curriculum" required>
                 <option value="" disabled selected>Select curriculum</option>
             @foreach ($curriculums as $curriculum)
-                <option value="{{ $curriculum->id }}">{{ $curriculum->curriculum_year }}</option>
+                <option value="{{ $curriculum->id }}">{{ $curriculum->year_implemented }}</option>
             @endforeach
             </select>
         </label>

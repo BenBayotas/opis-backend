@@ -22,7 +22,7 @@ class CurriculumFactory extends Factory
 
         return [
             'course_id' => Course::factory()->create(),
-            'curriculum_year' => $curYear,
+            'year_implemented' => $curYear,
         ];
     }
 }
