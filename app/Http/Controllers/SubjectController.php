@@ -39,8 +39,8 @@ class SubjectController extends Controller
     {
         $validated = $request->validate([
             'subject_group_id' => 'required|exists:subject_groups,id',
-            'subject_code'     => 'nullable|string',
-            'subject_title'    => 'required|string',
+            'code'     => 'nullable|string',
+            'title'    => 'required|string',
             'is_major'         => 'required|boolean',
             'department_id'    => 'required|exists:departments,id',
             'credited_units'   => 'required|integer',
@@ -87,8 +87,8 @@ class SubjectController extends Controller
     {
         $validated = $request->validate([
             'subject_group_id' => 'required|exists:subject_groups,id',
-            'subject_code'     => 'nullable|string',
-            'subject_title'    => 'required|string',
+            'code'     => 'nullable|string',
+            'title'    => 'required|string',
             'is_major'         => 'required|boolean',
             'department_id'    => 'required|exists:departments,id',
             'credited_units'   => 'required|integer',

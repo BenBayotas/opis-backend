@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('subject_group_id');
-            $table->string('subject_code')->nullable();
-            $table->string('subject_title');
+            $table->string('code')->nullable();
+            $table->string('title');
 
             $table->boolean('is_major'); //if is major: check the subject department pivot to see which major it's attached to
             $table->foreignIdFor(Department::class);

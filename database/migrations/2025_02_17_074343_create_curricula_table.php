@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
 
             $table->foreignIdFor(Course::class);
-            $table->string('curriculum_year');
+            $table->integer('year_implemented');
 
             $table->timestamps();
         });

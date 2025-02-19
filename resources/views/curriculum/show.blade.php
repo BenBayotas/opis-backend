@@ -1,9 +1,9 @@
 <x-layout>
     <x-slot:title>
-        {{ $curriculum->curriculum_year }}
+        {{ $curriculum->year_implemented }}
     </x-slot:title>
-
-    <h1>Curriculum {{ $curriculum->curriculum_year }} of {{ $curriculum->course->description }}</h1>
+    
+    <h1>Curriculum {{ $curriculum->year_implemented }} of {{ $curriculum->course->description }}</h1>
 
     <!-- Top Section: Display Current Curriculum Year and Course -->
     <div class="grid">
@@ -20,7 +20,7 @@
             </select>
         </label>
     </div>
-
+    
     <hr>
 
     <!-- Section: Add Subjects to a Specific Year & Semester -->
