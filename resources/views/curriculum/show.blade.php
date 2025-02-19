@@ -28,8 +28,8 @@
 
             @foreach ($sem->subjects as $sub)
             <tr>
-                <td>{{ $sub->subject_code }}</td>
-                <td>{{ $sub->subject_title }}</td>
+                <td>{{ $sub->code }}</td>
+                <td>{{ $sub->title }}</td>
                 <!--areas aren't populated yet but it should work-->
                 <td>wip</td>
                 <td>{{ $sub->pivot->quota }}</td>

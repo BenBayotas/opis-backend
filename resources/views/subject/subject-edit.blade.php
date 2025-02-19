@@ -25,12 +25,12 @@
 
             <label>
                 Subject Code
-                <input type="text" name="subject_code" value="{{ old('subject_code', $subject->subject_code) }}">
+                <input type="text" name="subject" value="{{ old('code', $subject->code) }}">
             </label>
 
             <label>
                 Subject Title
-                <input type="text" name="subject_title" value="{{ old('subject_title', $subject->subject_title) }}">
+                <input type="text" name="title" value="{{ old('title', $subject->title) }}">
             </label>
 
             <label>
