@@ -1,4 +1,4 @@
-<form action="{{ route('course.update', $course->id) }}" method="POST">
+<form id="course-form" action="{{ route('course.update', $course->id) }}" method="POST">
     @csrf
     @method('PUT')
     <h2>Edit Course #{{ $course->id }}</h2>
@@ -18,51 +18,51 @@
 
         <label>
             Code
-            <input type="text" name="code" value="{{ old('code', $course->code) }}">
+            <input type="text" name="code" value="{{ $course->code }}">
         </label>
 
         <label>
             Acronym
-            <input type="text" name="acronym" value="{{ old('acronym', $course->acronym) }}">
+            <input type="text" name="acronym" value="{{ $course->acronym }}">
         </label>
     </div>
 
     <div class="grid">
         <label>
             Description
-            <input type="text" name="description" value="{{ old('description', $course->description) }}">
+            <input type="text" name="description" value="{{ $course->description }}">
         </label>
 
         <label>
             Major
-            <input type="text" name="major" value="{{ old('major', $course->major) }}">
+            <input type="text" name="major" value="{{ $course->major }}">
         </label>
 
         <label>
             Authority No.
-            <input type="text" name="authority_no" value="{{ old('authority_no', $course->authority_no) }}">
+            <input type="text" name="authority_no" value="{{ $course->authority_no }}">
         </label>
 
         <label>
             Accreditation Id
-            <input type="text" name="accreditation_id" value="{{ old('accreditation_id', $course->accreditation_id) }}">
+            <input type="text" name="accreditation_id" value="{{ $course->accreditation_id }}">
         </label>
     </div>
 
     <div class="grid">
         <label>
             Year Granted
-            <input type="text" name="year_granted" value="{{ old('year_granted', $course->year_granted) }}">
+            <input type="text" name="year_granted" value="{{ $course->year_granted }}">
         </label>
 
         <label>
             Years
-            <input type="number" name="years" value="{{ old('years', $course->years) }}">
+            <input type="number" name="years" value="{{ $course->years }}">
         </label>
 
         <label>
             Slots
-            <input type="number" name="slots" value="{{ old('slots', $course->slots) }}">
+            <input type="number" name="slots" value="{{ $course->slots }}">
         </label>
     </div>
 
