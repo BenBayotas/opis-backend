@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('code')->nullable();
             $table->string('title');
 
+            $table->boolean('is_major'); // WARN: this should be removed at some point, derived from department
             $table->foreignIdFor(Department::class)
                 ->nullable()
                 ->nullOnDelete();
