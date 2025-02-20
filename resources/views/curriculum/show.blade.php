@@ -92,17 +92,12 @@
     </div>
 
     <!-- Button to Submit Selected Subjects -->
-    <div>
+
+    <div class="grid">
+        <button onclick="toggleColumns()">Toggle Requisites</button>
         <button id="addSubjectsButton">Add Selected Subjects</button>
     </div>
-
     <hr>
-
-    <!-- Toggle Button for Table Columns -->
-    <div>
-        <button onclick="toggleColumns()">Toggle Requisites</button>
-    </div>
-
     <!-- Section: Display Existing Curriculum Subjects -->
     @foreach ($curriculum->curriculumYears as $year)
         <div>
