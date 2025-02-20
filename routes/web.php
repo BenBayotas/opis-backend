@@ -10,6 +10,7 @@ Route::get('/', [DepartmentController::class, 'index']);
 
 // COURSES
 Route::get('/course', [CourseController::class, 'index'])->name('course.index');
+Route::get('/course/search', [CourseController::class, 'search'])->name('course.search');
 Route::get('/course/add', [CourseController::class, 'create'])->name('course.create');
 Route::post('/course/store', [CourseController::class, 'store'])->name('course.store');
 Route::get('/course/{id}/edit', [CourseController::class, 'edit'])->name('course.edit');

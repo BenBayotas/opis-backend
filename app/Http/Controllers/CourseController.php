@@ -24,7 +24,7 @@ class CourseController extends Controller
             "departments" => $departments,
             "courses" => $courses,
         ];
-        return view('course.course-index',  $data);
+        return view('course.index',  $data);
     }
 
     # NOTE: we don't have create and edit functions because I messed up and made resource
@@ -77,6 +77,34 @@ class CourseController extends Controller
     }
 
 
+    public function search(Request $request)
+    {
+        $search = $request->query("search");
+
+
+        /*just mmake this a idfferent form*/
+        /*$departments = Department::where('title', 'like', '%'.$search.'%')->get();*/
+
+        $courses = Course::where('code', 'like', '%' . $search . '%')
+            ->orWhereHas('department', function ($query) use ($search) {
+                $query->where('title', 'like', '%' . $search . '%');
+            })
+            ->orWhere('acronym', 'like', '%' . $search . '%')
+            ->orWhere('description', 'like', '%' . $search . '%')
+            ->orWhere('major', 'like', '%' . $search . '%')
+            ->get();
+
+        if ($search == "") {
+            $courses = Course::all();
+        }
+
+        $data = [
+            "courses" => $courses,
+        ];
+
+        // only ajax for now, fix later
+        return view('course.partials.list', $data);
+    }
     /**
      * Display the specified resource.
      */

@@ -6,6 +6,19 @@
     <!-- Unified Create/Update Form -->
     <section>
         <h2 id="form-title">Add New Course</h2>
+
+        <label>
+            Search
+            <input
+                type="text"
+                name="search"
+                hx-get="{{ route('course.search') }}"
+                hx-trigger="input changed delay:500ms, keyup[key=='Enter'], load"
+                hx-target="#course-list"
+                hx-swap="innerHTML"
+            >
+        </label>
+
         <form id="course-form" action="{{ route('course.store') }}" method="POST">
             @csrf
             <!-- The _method hidden input will be added when editing -->
@@ -76,7 +89,7 @@
     <hr>
 
     <!-- Course List -->
-    <section>
+    <section id="course-list">
         <h2>Course List</h2>
         <table>
             <thead>
