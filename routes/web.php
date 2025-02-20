@@ -53,3 +53,5 @@ Route::post('/subject/equivalent', [SubjectEquivalentController::class, 'store']
 Route::delete('/subject/{subjectId}/equivalent/{equivalentId}', [SubjectEquivalentController::class, 'destroy'])->name('subject.equivalent.destroy');
 
 Route::get('/subject/{subject}/manage-requisites', [SubjectController::class, 'manageRequisites'])->name('subject.manageRequisites');
+
+Route::post('/subject/requisites', [SubjectController::class, 'storeRequisites'])->name('subject.requisites.store');

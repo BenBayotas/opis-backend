@@ -8,8 +8,6 @@
     <form action="{{ route('subject.update', $subject->id) }}" method="POST">
         @csrf
         @method('PUT')
-
-        <!-- Row 1: Subject Group, Code, Title, Is Major -->
         <div class="grid">
             <label>
                 Subject Group
@@ -41,8 +39,6 @@
                 </select>
             </label>
         </div>
-
-        <!-- Row 2: Department, Credited Units, LEC Hours, LAB Hours -->
         <div class="grid">
             <label>
                 Department
@@ -71,8 +67,6 @@
                 <input type="number" name="lab_hours" value="{{ old('lab_hours', $subject->lab_hours) }}">
             </label>
         </div>
-
-        <!-- Row 3: Special, Elective, No Text Booklet, Is Not WGA -->
         <div class="grid">
             <label>
                 Special
@@ -106,8 +100,6 @@
                 </select>
             </label>
         </div>
-
-        <!-- Row 4: Category and Tuition Units -->
         <div class="grid">
             <label>
                 Category
@@ -120,13 +112,11 @@
                     @endforeach
                 </select>
             </label>
-
             <label>
                 Tuition Units
                 <input type="number" name="tuition_units" value="{{ old('tuition_units', $subject->tuition_units) }}">
             </label>
         </div>
-
         <button type="submit">Update Subject</button>
     </form>
 </x-layout>

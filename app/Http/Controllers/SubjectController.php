@@ -118,12 +118,46 @@ class SubjectController extends Controller
 
     public function manageRequisites(Request $request, $subjectId)
     {
-        // Retrieve the curriculum id from the query string
+       
         $curriculumId = $request->query('curriculum');
         $subject = Subject::findOrFail($subjectId);
         $curriculum = \App\Models\Curriculum::findOrFail($curriculumId);
-        $allSubjects = Subject::all(); // All subjects available for selection
+        $allSubjects = Subject::all(); 
         
         return view('subject.manage-requisites', compact('subject', 'curriculum', 'allSubjects'));
+    }
+
+    public function storeRequisites(Request $request, Subject $subject){
+        $data = $request->validate([
+            'subject_id'    => 'required|exists:subjects,id',
+            'curriculum_id' => 'required|exists:curricula,id',
+            'prerequisites' => 'nullable|array',
+            'prerequisites.*' => 'exists:subjects,id',
+            'corequisites'  => 'nullable|array',
+            'corequisites.*' => 'exists:subjects,id',
+            'equivalents'   => 'nullable|array',
+            'equivalents.*' => 'exists:subjects,id',
+        ]);
+
+        $subject = Subject::findOrFail($data['subject_id']);
+        $curriculumId = $data['curriculum_id'];
+
+        if(!empty($data['prerequisites'])){
+            $prereqData = array_fill_keys($data['prerequisites'], ['curriculum_id' => $curriculumId]);
+            $subject->prerequisites()->syncWithoutDetaching($prereqData);
+        }
+
+        if (!empty($data['corequisites'])) {
+            $coreqData = array_fill_keys($data['corequisites'], ['curriculum_id' => $curriculumId]);
+            $subject->corequisites()->syncWithoutDetaching($coreqData);
+        }
+
+        if (!empty($data['equivalents'])) {
+            $equivData = array_fill_keys($data['equivalents'], ['curriculum_id' => $curriculumId]);
+            $subject->equivalents()->syncWithoutDetaching($equivData);
+        }
+
+        return redirect()->route('curriculum.show', ['curriculum' => $curriculumId])
+            ->with('success', 'Requisites added successfully.');
     }
 }

@@ -2,13 +2,15 @@
     <x-slot:title>
         {{ $curriculum->year_implemented }}
     </x-slot:title>
+    
     <h1>Curriculum {{ $curriculum->year_implemented }} of {{ $curriculum->course->description }}</h1>
 
+    <!-- Top Section: Display Current Curriculum Year and Course -->
     <div class="grid">
         <label>
             Curriculum Year
             <select name="curriculum_year" id="curriculum_year" disabled>
-                <option value="{{ $curriculum->id }}">{{ $curriculum->year_implemented }}</option>
+                <option value="{{ $curriculum->id }}">{{ $curriculum->curriculum_year }}</option>
             </select>
         </label>
         <label>
@@ -18,8 +20,10 @@
             </select>
         </label>
     </div>
+    
+    <hr>
 
-
+    <!-- Section: Add Subjects to a Specific Year & Semester -->
     <h3>Add Curriculum Subjects</h3>
     <div class="grid">
         <label>
@@ -62,7 +66,6 @@
                         <th>Select</th>
                         <th>Subject Code</th>
                         <th>Subject Title</th>
-                        {{-- You can add additional columns if needed --}}
                     </tr>
                 </thead>
                 <tbody>
@@ -95,6 +98,11 @@
 
     <hr>
 
+    <!-- Toggle Button for Table Columns -->
+    <div>
+        <button onclick="toggleColumns()">Toggle Requisites</button>
+    </div>
+
     <!-- Section: Display Existing Curriculum Subjects -->
     @foreach ($curriculum->curriculumYears as $year)
         <div>
@@ -108,11 +116,16 @@
                             <th>Subject Title</th>
                             <th>Area</th>
                             <th>Quota</th>
-                            <th>LEC</th>
-                            <th>LAB</th>
-                            <th>Credited Units</th>
-                            <th>Prerequisites</th>
-                            <th>Actions</th>
+                            <!-- Default columns -->
+                            <th class="default-data">LEC</th>
+                            <th class="default-data">LAB</th>
+                            <th class="default-data">Credited Units</th>
+                            <th class="default-data">Prerequisites</th>
+                            <th class="default-data">Actions</th>
+                            <!-- Requisites columns (initially hidden) -->
+                            <th class="requisite-data" style="display:none;">Pre-Requisites</th>
+                            <th class="requisite-data" style="display:none;">Co-Requisites</th>
+                            <th class="requisite-data" style="display:none;">Equivalent</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -122,16 +135,39 @@
                                 <td>{{ $sub->title }}</td>
                                 <td>{{ $sub->pivot->curriculum_semester_area_id }}</td>
                                 <td>{{ $sub->pivot->quota }}</td>
-                                <td>{{ $sub->lec_hours }}</td>
-                                <td>{{ $sub->lab_hours }}</td>
-                                <td>{{ $sub->credited_units }}</td>
-                                <!-- Prerequisites Column -->
-                                <td>
-                                    <a href="{{ route('subject.manageRequisites', ['subject' => $sub->id, 'curriculum' => $curriculum->id]) }}">Manage Requisites</a>
+                                <!-- Default columns -->
+                                <td class="default-data">{{ $sub->lec_hours }}</td>
+                                <td class="default-data">{{ $sub->lab_hours }}</td>
+                                <td class="default-data">{{ $sub->credited_units }}</td>
+                                <td class="default-data">
+                                    <a href="{{ route('subject.manageRequisites', ['subject' => $sub->id, 'curriculum' => $curriculum->id]) }}">
+                                        Manage Requisites
+                                    </a>
                                 </td>
-                                <!-- Actions Column -->
-                                <td>
+                                <td class="default-data">
                                     <button class="delete-subject" data-semester-id="{{ $sem->id }}" data-subject-id="{{ $sub->id }}">Delete</button>
+                                </td>
+                                <!-- Requisites columns -->
+                                <td class="requisite-data" style="display:none;">
+                                    @foreach($sub->prerequisites as $prereq)
+                                        @if($prereq->pivot->curriculum_id == $curriculum->id)
+                                            {{ $prereq->title }}<br>
+                                        @endif
+                                    @endforeach
+                                </td>
+                                <td class="requisite-data" style="display:none;">
+                                    @foreach($sub->corequisites as $coreq)
+                                        @if($coreq->pivot->curriculum_id == $curriculum->id)
+                                            {{ $coreq->title }}<br>
+                                        @endif
+                                    @endforeach
+                                </td>
+                                <td class="requisite-data" style="display:none;">
+                                    @foreach($sub->equivalents as $equiv)
+                                        @if($equiv->pivot->curriculum_id == $curriculum->id)
+                                            {{ $equiv->title }}<br>
+                                        @endif
+                                    @endforeach
                                 </td>
                             </tr>
                         @endforeach
@@ -146,8 +182,23 @@
         const curriculumId = {{ $curriculum->id }};
     </script>
 
-    <!-- Front-End Integration & AJAX -->
+    <!-- JavaScript for toggling columns and other interactivity -->
     <script>
+        let showingRequisites = false;
+        function toggleColumns() {
+            const defaultCells = document.querySelectorAll('.default-data');
+            const requisiteCells = document.querySelectorAll('.requisite-data');
+            if (showingRequisites) {
+                defaultCells.forEach(cell => cell.style.display = '');
+                requisiteCells.forEach(cell => cell.style.display = 'none');
+                showingRequisites = false;
+            } else {
+                defaultCells.forEach(cell => cell.style.display = 'none');
+                requisiteCells.forEach(cell => cell.style.display = '');
+                showingRequisites = true;
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
             const subjectSearch = document.getElementById('subjectSearch');
             const filterMajor = document.getElementById('filterMajor');
@@ -155,7 +206,6 @@
             const selectedSubjectsList = document.getElementById('selectedSubjectsList');
             const addSubjectsButton = document.getElementById('addSubjectsButton');
 
-            // Update selected subjects list.
             function updateSelectedSubjects() {
                 selectedSubjectsList.innerHTML = '';
                 document.querySelectorAll('.subject-checkbox:checked').forEach(checkbox => {
@@ -167,12 +217,10 @@
                 });
             }
 
-            // Add event listeners to checkboxes.
             document.querySelectorAll('.subject-checkbox').forEach(checkbox => {
                 checkbox.addEventListener('change', updateSelectedSubjects);
             });
 
-            // Filter available subjects.
             function filterSubjects() {
                 const searchTerm = subjectSearch.value.toLowerCase();
                 const majorFilter = filterMajor.value;
@@ -193,17 +241,14 @@
             subjectSearch.addEventListener('input', filterSubjects);
             filterMajor.addEventListener('change', filterSubjects);
 
-            // Handle add subjects button.
             addSubjectsButton.addEventListener('click', function () {
                 const selectedIds = Array.from(document.querySelectorAll('.subject-checkbox:checked')).map(cb => cb.value);
                 const year = document.getElementById('subjectYear').value;
                 const semester = document.getElementById('semester').value;
-
                 if (!year || !semester || selectedIds.length === 0) {
                     alert('Please enter a year, select a semester, and choose at least one subject.');
                     return;
                 }
-
                 fetch('{{ route("curriculum.addSubjects", $curriculum->id) }}', {
                     method: 'POST',
                     headers: {
@@ -230,16 +275,13 @@
                 });
             });
 
-            // Attach event listeners to delete buttons for each added subject.
             document.querySelectorAll('.delete-subject').forEach(button => {
                 button.addEventListener('click', function () {
                     const semesterId = this.dataset.semesterId;
                     const subjectId = this.dataset.subjectId;
-
                     if (!confirm('Are you sure you want to delete this subject from the curriculum?')) {
                         return;
                     }
-
                     fetch(`{{ url('/curriculum') }}/${curriculumId}/semester/${semesterId}/subject/${subjectId}`, {
                         method: 'DELETE',
                         headers: {
@@ -263,8 +305,5 @@
                 });
             });
         });
-
-        
-        
     </script>
 </x-layout>
