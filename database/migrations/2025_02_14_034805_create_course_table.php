@@ -15,7 +15,8 @@ return new class extends Migration
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignIdFor(Department::class);
+            $table->foreignIdFor(Department::class)
+                ->onDelete('cascade');
 
             $table->string('code');
             $table->string('acronym');
