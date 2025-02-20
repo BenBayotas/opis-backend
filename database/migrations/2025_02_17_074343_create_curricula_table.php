@@ -15,7 +15,8 @@ return new class extends Migration
         Schema::create('curricula', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignIdFor(Course::class);
+            $table->foreignIdFor(Course::class)
+                ->cascadeOnDelete();
             $table->integer('year_implemented');
 
             $table->timestamps();

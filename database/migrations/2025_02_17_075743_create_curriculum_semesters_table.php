@@ -16,7 +16,8 @@ return new class extends Migration
             $table->id();
 
             $table->string('title'); // NOTE: hardcode string result
-            $table->foreignIdFor(CurriculumYear::class);
+            $table->foreignIdFor(CurriculumYear::class)
+                ->cascadeOnDelete();;
 
             // NOTE: able to change the "area" version when ched decides
             // to change it without affecting older ones
