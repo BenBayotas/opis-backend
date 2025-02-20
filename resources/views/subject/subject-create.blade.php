@@ -125,6 +125,13 @@
             </label>
         </div>
         
+        <div class="grid">
+            <label>
+                Attached Fees
+                (temp)
+                <input>
+            </label>
+        </div>
         <button type="submit">Add Subject</button>
     </form>
 </x-layout>
