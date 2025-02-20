@@ -16,8 +16,10 @@ return new class extends Migration
         Schema::create('curriculum_semester_subject', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignIdFor(CurriculumSemester::class);
-            $table->foreignIdFor(Subject::class);
+            $table->foreignIdFor(CurriculumSemester::class)
+                ->cascadeOnDelete();
+            $table->foreignIdFor(Subject::class)
+                ->cascadeOnDelete();
 
             $table->foreignId('curriculum_semester_area_id');
             $table->float('quota');
