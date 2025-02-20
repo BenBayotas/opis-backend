@@ -35,8 +35,6 @@ return new class extends Migration
             $table->foreignId('category_id');
             $table->integer('tuition_units')->default(0);
 
-            // TODO: when making mock fees tables, put the pivot there
-            /*$table->foreginId('attached_fees'); will need to do a pivot map for this*/
 
             $table->timestamps();
         });
@@ -51,6 +49,12 @@ return new class extends Migration
         Schema::create('subject_categories', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+        });
+
+        Schema::create('subject_fee', function (Blueprint $table) {
+            $table->id();
+            $table->foreignIdFor(Subject::class);
+            $table->foreignId('fee_id');
         });
     }
 
