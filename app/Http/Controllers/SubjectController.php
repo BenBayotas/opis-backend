@@ -115,4 +115,15 @@ class SubjectController extends Controller
     {
         //
     }
+
+    public function manageRequisites(Request $request, $subjectId)
+    {
+        // Retrieve the curriculum id from the query string
+        $curriculumId = $request->query('curriculum');
+        $subject = Subject::findOrFail($subjectId);
+        $curriculum = \App\Models\Curriculum::findOrFail($curriculumId);
+        $allSubjects = Subject::all(); // All subjects available for selection
+        
+        return view('subject.manage-requisites', compact('subject', 'curriculum', 'allSubjects'));
+    }
 }

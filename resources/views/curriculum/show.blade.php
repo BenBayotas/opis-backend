@@ -10,7 +10,7 @@
         <label>
             Curriculum Year
             <select name="curriculum_year" id="curriculum_year" disabled>
-                <option value="{{ $curriculum->id }}">{{ $curriculum->curriculum_year }}</option>
+                <option value="{{ $curriculum->id }}">{{ $curriculum->year_implemented }}</option>
             </select>
         </label>
         <label>
@@ -68,20 +68,17 @@
                         <th>Select</th>
                         <th>Subject Code</th>
                         <th>Subject Title</th>
-                        {{-- <th>Is Major</th>
-                        <th>Credited Units</th> --}}
+                        {{-- You can add additional columns if needed --}}
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($subjects as $subject)
-                        <tr data-is-major="{{ $subject->is_major ? 'major' : 'nonmajor' }}" data-title="{{ strtolower($subject->subject_title) }}">
+                        <tr data-is-major="{{ $subject->is_major ? 'major' : 'nonmajor' }}" data-title="{{ strtolower($subject->title) }}">
                             <td>
                                 <input type="checkbox" class="subject-checkbox" value="{{ $subject->id }}">
                             </td>
                             <td>{{ $subject->code }}</td>
                             <td>{{ $subject->title }}</td>
-                            {{-- <td>{{ $subject->is_major ? 'Yes' : 'No' }}</td>
-                            <td>{{ $subject->credited_units }}</td> --}}
                         </tr>
                     @endforeach
                 </tbody>
@@ -120,6 +117,7 @@
                             <th>LEC</th>
                             <th>LAB</th>
                             <th>Credited Units</th>
+                            <th>Prerequisites</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -133,6 +131,11 @@
                                 <td>{{ $sub->lec_hours }}</td>
                                 <td>{{ $sub->lab_hours }}</td>
                                 <td>{{ $sub->credited_units }}</td>
+                                <!-- Prerequisites Column -->
+                                <td>
+                                    <a href="{{ route('subject.manageRequisites', ['subject' => $sub->id, 'curriculum' => $curriculum->id]) }}">Manage Requisites</a>
+                                </td>
+                                <!-- Actions Column -->
                                 <td>
                                     <button class="delete-subject" data-semester-id="{{ $sem->id }}" data-subject-id="{{ $sub->id }}">Delete</button>
                                 </td>
@@ -158,7 +161,7 @@
             const selectedSubjectsList = document.getElementById('selectedSubjectsList');
             const addSubjectsButton = document.getElementById('addSubjectsButton');
 
-            // Update the list of selected subjects whenever a checkbox changes.
+            // Update selected subjects list.
             function updateSelectedSubjects() {
                 selectedSubjectsList.innerHTML = '';
                 document.querySelectorAll('.subject-checkbox:checked').forEach(checkbox => {
@@ -170,18 +173,18 @@
                 });
             }
 
-            // Add event listeners for checkboxes.
+            // Add event listeners to checkboxes.
             document.querySelectorAll('.subject-checkbox').forEach(checkbox => {
                 checkbox.addEventListener('change', updateSelectedSubjects);
             });
 
-            // Filter available subjects based on search input and major filter.
+            // Filter available subjects.
             function filterSubjects() {
                 const searchTerm = subjectSearch.value.toLowerCase();
-                const majorFilter = filterMajor.value; // "major", "nonmajor", or ""
+                const majorFilter = filterMajor.value;
                 Array.from(availableSubjectsTableBody.rows).forEach(row => {
-                    const title = row.dataset.title; // subject title in lowercase
-                    const isMajor = row.dataset.isMajor; // "major" or "nonmajor"
+                    const title = row.dataset.title;
+                    const isMajor = row.dataset.isMajor;
                     let show = true;
                     if (searchTerm && !title.includes(searchTerm)) {
                         show = false;
@@ -196,7 +199,7 @@
             subjectSearch.addEventListener('input', filterSubjects);
             filterMajor.addEventListener('change', filterSubjects);
 
-            // Handle the add subjects button click event.
+            // Handle add subjects button.
             addSubjectsButton.addEventListener('click', function () {
                 const selectedIds = Array.from(document.querySelectorAll('.subject-checkbox:checked')).map(cb => cb.value);
                 const year = document.getElementById('subjectYear').value;
@@ -207,7 +210,6 @@
                     return;
                 }
 
-                // Send an AJAX request to add the selected subjects.
                 fetch('{{ route("curriculum.addSubjects", $curriculum->id) }}', {
                     method: 'POST',
                     headers: {
@@ -226,7 +228,7 @@
                 })
                 .then(data => {
                     alert(data.message);
-                    // Optionally, update the curriculum display or reload the page.
+                    // Optionally update the curriculum display or reload the page.
                 })
                 .catch(error => {
                     console.error('Error:', error);
@@ -244,7 +246,6 @@
                         return;
                     }
 
-                    // Send an AJAX DELETE request.
                     fetch(`{{ url('/curriculum') }}/${curriculumId}/semester/${semesterId}/subject/${subjectId}`, {
                         method: 'DELETE',
                         headers: {
@@ -258,7 +259,6 @@
                     })
                     .then(data => {
                         alert(data.message);
-                        // Remove the row from the table.
                         const row = document.getElementById(`semester-${semesterId}-subject-${subjectId}`);
                         if (row) row.remove();
                     })
@@ -269,5 +269,8 @@
                 });
             });
         });
+
+        
+        
     </script>
 </x-layout>

@@ -20,7 +20,7 @@
             @foreach ($curriculums as $curriculum)
                 <tr>
                     <td>{{ $curriculum->id }}</td>
-                    <td>{{ $curriculum->curriculum_year }}</td>
+                    <td>{{ $curriculum->year_implemented }}</td>
                     <td>{{ $curriculum->course->description ?? 'N/A' }}</td>
                     <td>
                         <a href="{{ route('curriculum.show', ['curriculum' => $curriculum->id]) }}">View</a>
