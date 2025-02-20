@@ -2,10 +2,8 @@
     <x-slot:title>
         {{ $curriculum->year_implemented }}
     </x-slot:title>
-    
     <h1>Curriculum {{ $curriculum->year_implemented }} of {{ $curriculum->course->description }}</h1>
 
-    <!-- Top Section: Display Current Curriculum Year and Course -->
     <div class="grid">
         <label>
             Curriculum Year
@@ -20,10 +18,8 @@
             </select>
         </label>
     </div>
-    
-    <hr>
 
-    <!-- Section: Add Subjects to a Specific Year & Semester -->
+
     <h3>Add Curriculum Subjects</h3>
     <div class="grid">
         <label>
@@ -40,8 +36,6 @@
             </select>
         </label>
     </div>
-
-    <!-- Section: Filter and Search Available Subjects -->
     <div class="grid">
         <label>
             Search Subjects
