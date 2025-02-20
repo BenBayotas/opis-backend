@@ -16,9 +16,12 @@ return new class extends Migration
         Schema::create('subject_corequisite', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignIdFor(Subject::class);
-            $table->foreignIdFor(Subject::class, 'corequisite_id');
-            $table->foreignIdFor(Curriculum::class);
+            $table->foreignIdFor(Subject::class)
+                ->cascadeOnDelete();
+            $table->foreignIdFor(Subject::class, 'corequisite_id')
+                ->cascadeOnDelete();
+            $table->foreignIdFor(Curriculum::class)
+                ->cascadeOnDelete();
 
             $table->timestamps();
         });

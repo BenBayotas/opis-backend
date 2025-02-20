@@ -16,9 +16,12 @@ return new class extends Migration
         Schema::create('subject_equivalent', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignIdFor(Subject::class);
-            $table->foreignIdFor(Subject::class, 'equivalent_id');
-            $table->foreignIdFor(Curriculum::class);
+            $table->foreignIdFor(Subject::class)
+                ->cascadeOnDelete();
+            $table->foreignIdFor(Subject::class, 'equivalent_id')
+                ->cascadeOnDelete();
+            $table->foreignIdFor(Curriculum::class)
+                ->cascadeOnDelete();
 
             $table->timestamps();
         });
