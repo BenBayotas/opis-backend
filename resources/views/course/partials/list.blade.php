@@ -20,7 +20,13 @@
             @foreach($courses as $course)
                 <tr>
                     <td>
-                        <a>Edit</a>
+                        <a
+                            hx-get="{{ route('course.edit', $course->id) }}"
+                            hx-target="#course-form"
+                            hx-swap="outerHTML"
+                        >
+                            Edit
+                        </a>
                     </td>
                     <td>{{ $course->id }}</td>
                     <td>{{ $course->code }}</td>

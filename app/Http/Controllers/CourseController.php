@@ -33,45 +33,45 @@ class CourseController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     * 
+     *
      *request
      */
     public function store(Request $request)
-{
-    $departments = Department::all();
-    $course = new Course;
+    {
+        $departments = Department::all();
+        $course = new Course;
 
-    $request->validate([
-        'department_id'     => ['required', 'exists:departments,id'],
-        'code'              => ['required'],
-        'acronym'           => ['nullable'],
-        'description'       => ['required'],
-        'major'             => ['nullable'],
-        'authority_no'      => ['nullable'],
-        'accreditation_id'  => ['nullable'],
-        'year_granted'      => ['nullable'],
-        'years'             => ['required', 'integer'],
-        'slots'             => ['required', 'integer'],
-    ]);
+        $request->validate([
+            'department_id'     => ['required', 'exists:departments,id'],
+            'code'              => ['required'],
+            'acronym'           => ['nullable'],
+            'description'       => ['required'],
+            'major'             => ['nullable'],
+            'authority_no'      => ['nullable'],
+            'accreditation_id'  => ['nullable'],
+            'year_granted'      => ['nullable'],
+            'years'             => ['required', 'integer'],
+            'slots'             => ['required', 'integer'],
+        ]);
 
-    $course->department_id       = $request->input('department_id');
-    $course->code             = $request->input('code');
-    $course->acronym          = $request->input('acronym');
-    $course->description      = $request->input('description');
-    $course->major            = $request->input('major');
-    $course->authority_no     = $request->input('authority_no');
-    $course->accreditation_id = $request->input('accreditation_id'); // Fixed typo
-    $course->year_granted     = $request->input('year_granted');
-    $course->years            = $request->input('years');
-    $course->slots            = $request->input('slots');
+        $course->department_id       = $request->input('department_id');
+        $course->code             = $request->input('code');
+        $course->acronym          = $request->input('acronym');
+        $course->description      = $request->input('description');
+        $course->major            = $request->input('major');
+        $course->authority_no     = $request->input('authority_no');
+        $course->accreditation_id = $request->input('accreditation_id'); // Fixed typo
+        $course->year_granted     = $request->input('year_granted');
+        $course->years            = $request->input('years');
+        $course->slots            = $request->input('slots');
 
-    $course->save();
+        $course->save();
 
-    return redirect()->route('course.index')->with('success', 'Course Added');
-}
+        return redirect()->route('course.index')->with('success', 'Course Added');
+    }
 
     public function create()
-    {   
+    {
         $departments = Department::all();
         return view('course.create', compact('departments'));
     }
@@ -113,15 +113,15 @@ class CourseController extends Controller
         //
     }
 
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         $course = Course::findOrFail($id);
         $departments = Department::all();
 
-        if(request()->ajax()) {
+        if ($request->header('HX-Request')) {
             return view('course.partials.edit-form', compact('course', 'departments'));
         }
-    
+
         // Otherwise, load the full edit page (if needed)
         return view('course.course-edit', compact('course', 'departments'));
     }
@@ -130,7 +130,7 @@ class CourseController extends Controller
      */
     public function update(Request $request, $id)
     {
-       $request->validate([
+        $request->validate([
             'department_id'     => ['required', 'exists:departments,id'],
             'code'              => ['required'],
             'acronym'           => ['nullable'],
@@ -158,8 +158,8 @@ class CourseController extends Controller
 
         $course->save();
 
-        return redirect()->route('course.index')->with('success','Course Updated');
-    }   
+        return redirect()->route('course.index')->with('success', 'Course Updated');
+    }
 
     /**
      * Remove the specified resource from storage.
