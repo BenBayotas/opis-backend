@@ -9,8 +9,6 @@
     
     <form action="{{ route('subject.store') }}" method="POST">
         @csrf
-        
-        <!-- First row: Basic Subject Info -->
         <div class="grid">
             <label>
                 Subject Group
@@ -41,8 +39,6 @@
                 </select>
             </label>
         </div>
-        
-        <!-- Second row: Department and Hours -->
         <div class="grid">
             <label>
                 Department
@@ -70,8 +66,6 @@
                 <input type="number" name="lab_hours" value="{{ old('lab_hours') }}">
             </label>
         </div>
-        
-        <!-- Third row: Additional Attributes -->
         <div class="grid">
             <label>
                 Special
@@ -106,7 +100,6 @@
             </label>
         </div>
         
-        <!-- Fourth row: Category and Tuition -->
         <div class="grid">
             <label>
                 Category

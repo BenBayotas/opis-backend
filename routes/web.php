@@ -4,6 +4,9 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CurriculumController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\SubjectCorequisiteController;
+use App\Http\Controllers\SubjectEquivalentController;
+use App\Http\Controllers\SubjectPrerequisiteController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [DepartmentController::class, 'index']);
@@ -39,3 +42,16 @@ Route::get('/subject/{subject}', [SubjectController::class, 'show'])->name('subj
 Route::get('/subject/{subject}/edit', [SubjectController::class, 'edit'])->name('subject.edit');
 Route::put('/subject/{subject}', [SubjectController::class, 'update'])->name('subject.update');
 Route::delete('/subject/{subject}', [SubjectController::class, 'destroy'])->name('subject.destroy');
+
+Route::post('/subject/prerequisite', [SubjectPrerequisiteController::class, 'store'])->name('subject.prerequisite.store');
+Route::delete('/subject/{subjectId}/prerequisite/{prerequisiteId}', [SubjectPrerequisiteController::class, 'destroy'])->name('subject.prerequisite.destroy');
+
+Route::post('/subject/corequisite', [SubjectCorequisiteController::class, 'store'])->name('subject.corequisite.store');
+Route::delete('/subject/{subjectId}/corequisite/{corequisiteId}', [SubjectCorequisiteController::class, 'destroy'])->name('subject.corequisite.destroy');
+
+Route::post('/subject/equivalent', [SubjectEquivalentController::class, 'store'])->name('subject.equivalent.store');
+Route::delete('/subject/{subjectId}/equivalent/{equivalentId}', [SubjectEquivalentController::class, 'destroy'])->name('subject.equivalent.destroy');
+
+Route::get('/subject/{subject}/manage-requisites', [SubjectController::class, 'manageRequisites'])->name('subject.manageRequisites');
+
+Route::post('/subject/requisites', [SubjectController::class, 'storeRequisites'])->name('subject.requisites.store');

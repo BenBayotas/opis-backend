@@ -115,4 +115,55 @@ class SubjectController extends Controller
     {
         //
     }
+
+    public function manageRequisites(Request $request, $subjectId)
+    {
+       
+        $curriculumId = $request->query('curriculum');
+        $subject = Subject::findOrFail($subjectId);
+        $curriculum = \App\Models\Curriculum::findOrFail($curriculumId);
+        $allSubjects = Subject::all(); 
+        
+        return view('subject.manage-requisites', compact('subject', 'curriculum', 'allSubjects'));
+    }
+
+    public function storeRequisites(Request $request, Subject $subject){
+        $data = $request->validate([
+            'subject_id'    => 'required|exists:subjects,id',
+            'curriculum_id' => 'required|exists:curricula,id',
+            'prerequisites' => 'nullable|array',
+            'prerequisites.*' => 'exists:subjects,id',
+            'corequisites'  => 'nullable|array',
+            'corequisites.*' => 'exists:subjects,id',
+            'equivalents'   => 'nullable|array',
+            'equivalents.*' => 'exists:subjects,id',
+        ]);
+    
+        $subject = Subject::findOrFail($data['subject_id']);
+        $curriculumId = $data['curriculum_id'];
+    
+        // Detach existing relationships for this curriculum
+        $subject->prerequisites()->wherePivot('curriculum_id', $curriculumId)->detach();
+        $subject->corequisites()->wherePivot('curriculum_id', $curriculumId)->detach();
+        $subject->equivalents()->wherePivot('curriculum_id', $curriculumId)->detach();
+    
+        // Attach the new prerequisites (if any)
+        if (!empty($data['prerequisites'])) {
+            $prereqData = array_fill_keys($data['prerequisites'], ['curriculum_id' => $curriculumId]);
+            $subject->prerequisites()->syncWithoutDetaching($prereqData);
+        }
+        // Attach the new corequisites (if any)
+        if (!empty($data['corequisites'])) {
+            $coreqData = array_fill_keys($data['corequisites'], ['curriculum_id' => $curriculumId]);
+            $subject->corequisites()->syncWithoutDetaching($coreqData);
+        }
+        // Attach the new equivalents (if any)
+        if (!empty($data['equivalents'])) {
+            $equivData = array_fill_keys($data['equivalents'], ['curriculum_id' => $curriculumId]);
+            $subject->equivalents()->syncWithoutDetaching($equivData);
+        }
+    
+        return redirect()->route('curriculum.show', ['curriculum' => $curriculumId])
+            ->with('success', 'Requisites updated successfully.');
+    }
 }
