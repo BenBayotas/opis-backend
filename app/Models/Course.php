@@ -10,8 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Course extends Model
 {
     use HasFactory;
-    // TODO: figure out the whole belongs-to-has thing
-    //
+
     public function department(): BelongsTo
     {
         return $this->belongsTo(Department::class);

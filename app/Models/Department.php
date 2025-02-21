@@ -9,11 +9,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Department extends Model
 {
-    use HasFactory;
-
-    public function course(): HasMany
+    public function courses(): HasMany
     {
         return $this->hasMany(Course::class);
+    }
+
+    public function curricula(): HasMany
+    {
+        return $this->hasMany(Curriculum::class);
     }
 
     public function subjects(): HasMany
