@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Subject;
 
 // TODO: update to work with the new table
-class SubjectCorequisiteController extends Controller
+class SubjectPreCoEquiController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,11 +27,12 @@ class SubjectCorequisiteController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    // TODO: here
     public function store(Request $request)
     {
         $data = $request->validate([
             'subject_id'      => 'required|exists:subjects,id',
-            'corequisite_id'  => 'required|exists:subjects,id',
+            'dependent_subject_id'  => 'required|exists:subjects,id',
             'curriculum_id'   => 'required|exists:curricula,id',
         ]);
 
@@ -40,7 +41,7 @@ class SubjectCorequisiteController extends Controller
             $data['corequisite_id'] => ['curriculum_id' => $data['curriculum_id']]
         ]);
 
-        return redirect()->back()->with('success', 'Corequisite added successfully.');
+        return redirect()->back()->with('success', 'dependent added successfully.');
     }
 
     /**
