@@ -14,11 +14,6 @@ class Curriculum extends Model
 
     protected $fillable = ['course_id', 'curriculum_year'];
 
-    public function curriculumYears(): HasMany
-    {
-        return $this->hasMany(CurriculumYear::class)
-            ->orderBy('year', 'asc');
-    }
 
     public function course(): BelongsTo
     {
