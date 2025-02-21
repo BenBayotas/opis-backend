@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use App\Models\Curriculum;
-use App\Models\CurriculumSemester;
-use App\Models\CurriculumYear;
+use App\Models\CurriculumSubject;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -46,6 +45,7 @@ class CurriculumController extends Controller
     {
         $curricula = Curriculum::all();
 
+        // TODO: need to add start and end year
         $request->validate([
             'year' => ['required', 'digits:4', 'unique:curricula,year_implemented'],
             'course' => ['required']
@@ -55,28 +55,6 @@ class CurriculumController extends Controller
         $curriculum->course_id = $request->input('course');
         $curriculum->year_implemented = $request->input('year');
         $curriculum->save();
-
-        $course = Course::findOrFail($request->input('course'));
-
-        for ($i = 1; $i <= $course->years; $i++) {
-            $year = new CurriculumYear();
-            $year->year = $i;
-            $year->curriculum_id = $curriculum->id;
-            $year->save();
-
-            for ($j = 0; $j < 3; $j++) {
-                $sem = new CurriculumSemester();
-
-                $title = match ($j) {
-                    0 => 'first',
-                    1 => 'second',
-                    2 => 'summer'
-                };
-                $sem->title = $title;
-                $sem->curriculum_year_id = $year->id;
-                $sem->save();
-            }
-        }
 
         return redirect()->route('curriculum.index')->with('success', 'New curriculum added');
     }
@@ -136,7 +114,10 @@ class CurriculumController extends Controller
         //
     }
 
-    public function addSubjects(Request $request, Curriculum $curriculum){
+    // TODO: put into a different controller, in
+    // the curriculum_subject controller
+    public function addSubjects(Request $request, Curriculum $curriculum)
+    {
         $data = $request->validate([
             'year'     => 'required|integer',
             'semester' => 'required|integer',
@@ -177,11 +158,11 @@ class CurriculumController extends Controller
         return response()->json(['message' => 'Subjects added successfully']);
     }
 
-    public function removeSubject(Request $request, Curriculum $curriculum, $semester, $subject)
-    {
-        // Optionally, add logic to verify that the semester belongs to this curriculum.
-        $curriculumSemester = \App\Models\CurriculumSemester::findOrFail($semester);
-        $curriculumSemester->subjects()->detach($subject);
-        return response()->json(['message' => 'Subject removed successfully']);
-    }
+    /*public function removeSubject(Request $request, Curriculum $curriculum, $semester, $subject)*/
+    /*{*/
+    /*    // Optionally, add logic to verify that the semester belongs to this curriculum.*/
+    /*    $curriculumSemester = \App\Models\CurriculumSemester::findOrFail($semester);*/
+    /*    $curriculumSemester->subjects()->detach($subject);*/
+    /*    return response()->json(['message' => 'Subject removed successfully']);*/
+    /*}*/
 }

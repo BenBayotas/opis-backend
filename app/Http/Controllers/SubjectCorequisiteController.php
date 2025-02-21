@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Subject;
 
+// TODO: update to work with the new table
 class SubjectCorequisiteController extends Controller
 {
     /**
