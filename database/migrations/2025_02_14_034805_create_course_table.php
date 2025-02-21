@@ -19,7 +19,6 @@ return new class extends Migration
                 ->onDelete('cascade');
 
             $table->string('code');
-            $table->string('acronym');
 
             $table->string('description');
             $table->string('major')->nullable();
