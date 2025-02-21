@@ -2,17 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Http\Controllers\SubjectPrerequisiteController;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Subject extends Model
 {
-    /** @use HasFactory<\Database\Factories\SubjectFactory> */
-    use HasFactory;
-
-
     protected $fillable = [
         'subject_group_id',
         'code',
@@ -35,60 +31,65 @@ class Subject extends Model
         return $this->belongsTo(Department::class);
     }
 
-    public function semesters(): BelongsToMany
+    public function curriculums(): BelongsToMany
     {
-        return $this->belongsToMany(CurriculumSemester::class, 'curriculum_semester_subject')
-            ->using(CurriculumSemesterSubject::class)
-            ->withPivot('curriculum_semester_area_id', 'quota')
+        return $this->belongsToMany(Curriculum::class, 'curriculum_subject')
+            ->using(CurriculumSubject::class)
+            ->withPivot('year_level', 'semester', 'quota', 'subject_area_id')
             ->withTimestamps();
     }
 
     public function prerequisites(): BelongsToMany
     {
-        return $this->belongsToMany(Subject::class, 'subject_prerequisite', 'subject_id', 'prerequisite_id')
-            ->using(SubjectPrerequisite::class)
-            ->withPivot('curriculum_id')
+        return $this->belongsToMany(Subject::class, 'subject_pre_co_req', 'subject_id', 'dependent_subject_id')
+            ->using(SubjectPreCoEqui::class)
+            ->withPivot('type', 'curriculum_id')
+            ->wherePivot('type', 1)
             ->withTimestamps();
     }
 
     public function prereqFor(): BelongsToMany
     {
-        // filter for curriculum
-        return $this->belongsToMany(Subject::class, 'subject_prerequisite', 'prerequisite_id', 'subject_id')
-            ->using(SubjectPrerequisite::class)
-            ->withPivot('curriculum_id')
+        return $this->belongsToMany(Subject::class, 'subject_pre_co_req', 'dependent_subject_id', 'subject_id')
+            ->using(SubjectPreCoEqui::class)
+            ->withPivot('type', 'curriculum_id')
+            ->wherePivot('type', 1)
             ->withTimestamps();
     }
 
     public function corequisites(): BelongsToMany
     {
-        return $this->belongsToMany(Subject::class, 'subject_corequisite', 'subject_id', 'corequisite_id')
-            ->using(SubjectCorequisite::class)
-            ->withPivot('curriculum_id')
+        return $this->belongsToMany(Subject::class, 'subject_pre_co_req', 'subject_id', 'dependent_subject_id')
+            ->using(SubjectPreCoEqui::class)
+            ->withPivot('type', 'curriculum_id')
+            ->wherePivot('type', 2)
             ->withTimestamps();
     }
 
     public function coreqFor(): BelongsToMany
     {
-        return $this->belongsToMany(Subject::class, 'subject_corequisite', 'corequisite_id', 'subject_id')
-            ->using(SubjectCorequisite::class)
-            ->withPivot('curriculum_id')
+        return $this->belongsToMany(Subject::class, 'subject_pre_co_req', 'dependent_subject_id', 'subject_id')
+            ->using(SubjectPreCoEqui::class)
+            ->withPivot('type', 'curriculum_id')
+            ->wherePivot('type', 2)
             ->withTimestamps();
     }
 
     public function equivalents(): BelongsToMany
     {
-        return $this->belongsToMany(Subject::class, 'subject_equivalent', 'subject_id', 'equivalent_id')
-            ->using(SubjectEquivalent::class)
-            ->withPivot('curriculum_id')
+        return $this->belongsToMany(Subject::class, 'subject_pre_co_req', 'dependent_subject_id', 'subject_id')
+            ->using(SubjectPreCoEqui::class)
+            ->withPivot('type', 'curriculum_id')
+            ->wherePivot('type', 3)
             ->withTimestamps();
     }
 
     public function equivFor(): BelongsToMany
     {
-        return $this->belongsToMany(Subject::class, 'subject_equivalent', 'equivalent_id', 'subject_id')
-            ->using(SubjectEquivalent::class)
-            ->withPivot('curriculum_id')
+        return $this->belongsToMany(Subject::class, 'subject_pre_co_req', 'dependent_subject_id', 'subject_id')
+            ->using(SubjectPreCoEqui::class)
+            ->withPivot('type', 'curriculum_id')
+            ->wherePivot('type', 3)
             ->withTimestamps();
     }
 }
