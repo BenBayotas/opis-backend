@@ -13,12 +13,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('subject_corequisite', function (Blueprint $table) {
+        Schema::create('subject_pre_co_equi', function (Blueprint $table) {
             $table->id();
 
+            $table->integer('type');
             $table->foreignIdFor(Subject::class)
                 ->cascadeOnDelete();
-            $table->foreignIdFor(Subject::class, 'corequisite_id')
+            $table->foreignIdFor(Subject::class, 'dependent_subject_id')
                 ->cascadeOnDelete();
             $table->foreignIdFor(Curriculum::class)
                 ->cascadeOnDelete();
@@ -32,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('subject_corequisite');
+        Schema::dropIfExists('subject_pre_co_equi');
     }
 };

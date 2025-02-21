@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Course;
+use App\Models\Department;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,7 +18,12 @@ return new class extends Migration
 
             $table->foreignIdFor(Course::class)
                 ->cascadeOnDelete();
-            $table->integer('year_implemented');
+            $table->foreignIdFor(Department::class)
+                ->cascadeOnDelete();
+
+            $table->integer('year_implemented'); // should link to sy
+            $table->year('start_year');
+            $table->year('end_year');
 
             $table->timestamps();
         });
