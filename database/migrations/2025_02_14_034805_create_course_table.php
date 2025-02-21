@@ -17,6 +17,7 @@ return new class extends Migration
 
             $table->foreignIdFor(Department::class)
                 ->onDelete('cascade');
+            $table->foreignId('head_id');
 
             $table->string('code');
 

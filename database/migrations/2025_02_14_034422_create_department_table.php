@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('title');
             $table->foreignId('program_type_id');
             $table->foreignId('dean_id');
-            $table->foreignId('head_id');
+            $table->foreignId('chairperson_id');
 
             $table->timestamps();
         });
