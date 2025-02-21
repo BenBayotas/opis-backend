@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use App\Models\Department;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
@@ -44,7 +43,6 @@ class CourseController extends Controller
         $request->validate([
             'department_id'     => ['required', 'exists:departments,id'],
             'code'              => ['required'],
-            'acronym'           => ['nullable'],
             'description'       => ['required'],
             'major'             => ['nullable'],
             'authority_no'      => ['nullable'],
@@ -56,7 +54,6 @@ class CourseController extends Controller
 
         $course->department_id       = $request->input('department_id');
         $course->code             = $request->input('code');
-        $course->acronym          = $request->input('acronym');
         $course->description      = $request->input('description');
         $course->major            = $request->input('major');
         $course->authority_no     = $request->input('authority_no');
@@ -89,7 +86,6 @@ class CourseController extends Controller
             ->orWhereHas('department', function ($query) use ($search) {
                 $query->where('title', 'like', '%' . $search . '%');
             })
-            ->orWhere('acronym', 'like', '%' . $search . '%')
             ->orWhere('description', 'like', '%' . $search . '%')
             ->orWhere('major', 'like', '%' . $search . '%')
             ->get();
@@ -133,7 +129,6 @@ class CourseController extends Controller
         $request->validate([
             'department_id'     => ['required', 'exists:departments,id'],
             'code'              => ['required'],
-            'acronym'           => ['nullable'],
             'description'       => ['required'],
             'major'             => ['nullable'],
             'authority_no'      => ['nullable'],
@@ -147,7 +142,6 @@ class CourseController extends Controller
 
         $course->department_id       = $request->input('department_id');
         $course->code             = $request->input('code');
-        $course->acronym          = $request->input('acronym');
         $course->description      = $request->input('description');
         $course->major            = $request->input('major');
         $course->authority_no     = $request->input('authority_no');
