@@ -21,7 +21,14 @@ class DepartmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            "title" => "required",
+            "program_type_id" => "required|exists:program_types,id",
+            "dean_id" => "required", // TODO: require id to be valid
+            "chairperson_id" => "required",
+        ]);
+
+        Department::create($validated);
     }
 
     public function create()
@@ -48,7 +55,14 @@ class DepartmentController extends Controller
      */
     public function update(Request $request, Department $department)
     {
-        //
+        $validated = $request->validate([
+            "title" => "required",
+            "program_type_id" => "required|exists:program_types,id",
+            "dean_id" => "required", // TODO: require id to be valid
+            "chairperson_id" => "required",
+        ]);
+
+        $department->update($validated);
     }
 
     /**
@@ -56,6 +70,6 @@ class DepartmentController extends Controller
      */
     public function destroy(Department $department)
     {
-        //
+        $department->delete();
     }
 }
