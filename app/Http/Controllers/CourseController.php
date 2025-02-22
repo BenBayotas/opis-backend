@@ -26,10 +26,6 @@ class CourseController extends Controller
         return view('course.index',  $data);
     }
 
-    # NOTE: we don't have create and edit functions because I messed up and made resource
-    # controllers
-    # reminder that the create and edit functinos are just the functions that show the forms
-
     /**
      * Store a newly created resource in storage.
      *
@@ -79,9 +75,7 @@ class CourseController extends Controller
         $search = $request->query("search");
 
 
-        /*just mmake this a idfferent form*/
-        /*$departments = Department::where('title', 'like', '%'.$search.'%')->get();*/
-
+        // TODO: update for new model
         $courses = Course::where('code', 'like', '%' . $search . '%')
             ->orWhereHas('department', function ($query) use ($search) {
                 $query->where('title', 'like', '%' . $search . '%');
@@ -141,6 +135,7 @@ class CourseController extends Controller
         $course = Course::findOrFail($id);
 
         $course->department_id       = $request->input('department_id');
+        $course->head_id = $request->input('department_id');
         $course->code             = $request->input('code');
         $course->description      = $request->input('description');
         $course->major            = $request->input('major');
@@ -160,6 +155,6 @@ class CourseController extends Controller
      */
     public function destroy(Course $course)
     {
-        //
+        $course->delete();
     }
 }
