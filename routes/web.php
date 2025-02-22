@@ -4,9 +4,6 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CurriculumController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\SubjectController;
-use App\Http\Controllers\SubjectCorequisiteController;
-use App\Http\Controllers\SubjectEquivalentController;
-use App\Http\Controllers\SubjectPrerequisiteController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [DepartmentController::class, 'index']);
@@ -46,4 +43,3 @@ Route::delete('/subject/{subject}', [SubjectController::class, 'destroy'])->name
 Route::get('/subject/{subject}/manage-requisites', [SubjectController::class, 'manageRequisites'])->name('subject.manageRequisites');
 
 Route::post('/subject/requisites', [SubjectController::class, 'storeRequisites'])->name('subject.requisites.store');
-
