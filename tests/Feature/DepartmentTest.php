@@ -25,13 +25,13 @@ class DepartmentTest extends TestCase
 
     public function testDepartmentCanBeDeleted(): void
     {
-        $departments = Department::factory()->create();
+        $department = Department::factory()->create();
 
-        $this->assertDatabaseHas('departments', ['id' => $departments->id]);
-        $response = $this->delete(route('department.destroy', $departments->id));
+        $this->assertDatabaseHas('departments', ['id' => $department->id]);
+        $response = $this->delete(route('department.destroy', $department->id));
 
         $response->assertStatus(302);
-        $this->assertDatabaseMissing('departments', ['id' => $departments->id]);
+        $this->assertDatabaseMissing('departments', ['id' => $department->id]);
         $response->assertSessionHas('success', 'department deleted');
     }
 
