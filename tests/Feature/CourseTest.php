@@ -31,6 +31,26 @@ class CourseTest extends TestCase
         $response->assertSessionHas('success', 'course added');
     }
 
+    public function testCourseReturnsValidationErrors(): void
+    {
+        $data = [
+            'department_id' => 5,
+            'head_id' => 1,
+            'code' => 'bscs',
+            'description' => 'bachelor of science',
+            'major' => '',
+            'authority_no' => '',
+            'accreditation_id' => '',
+            'year_granted' => '2003',
+            'years' => 5,
+            'slots' => 45,
+        ];
+        $response = $this->post('/course', $data);
+
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors(['department_id']);
+    }
+
     public function testCourseCanBeDeleted(): void
     {
         $course = Course::factory()->create();
