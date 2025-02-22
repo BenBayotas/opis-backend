@@ -1,7 +1,5 @@
 Curriculum store doesn't work, needs department values
 add curriculum subjects should be added in its own controller instead of the curriculum controller
-create proper factories for everything
-start and end date for curriculum
 make requisites work
 
 make proper seeders

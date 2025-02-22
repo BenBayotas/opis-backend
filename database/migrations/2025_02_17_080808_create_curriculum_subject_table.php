@@ -24,8 +24,8 @@ return new class extends Migration
             $table->integer('year_level');
             $table->integer('semester'); // should link to ref table
 
-            $table->float('quota');
-            $table->foreignId('subject_area_id');
+            $table->float('quota')->nullable();
+            $table->foreignId('subject_area_id')->nullable();
 
             $table->timestamps();
         });

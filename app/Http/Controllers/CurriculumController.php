@@ -111,58 +111,45 @@ class CurriculumController extends Controller
      */
     public function destroy(Curriculum $curriculum)
     {
-        //
+        $curriculum->delete();
     }
 
-    // TODO: put into a different controller, in
-    // the curriculum_subject controller
-    public function addSubjects(Request $request, Curriculum $curriculum)
+
+    // NOTE: expects this kind of input
+    // {
+    //   "year_level": 1,
+    //   "semester": 1,
+    //   "subjects": [1, 2, 3]
+    // }
+    public function addSubjects(Request $request, $id)
     {
-        $data = $request->validate([
-            'year'     => 'required|integer',
+        $validated = $request->validate([
+            'year_level' => 'required|integer',
             'semester' => 'required|integer',
+
             'subjects' => 'required|array',
-            'subjects.*' => 'exists:subjects,id',
+            'subjects.*' => 'required|exists:subjects,id',
         ]);
 
-        $curriculumYear = $curriculum->curriculumYears()->where('year', $data['year'])->first();
-        if (!$curriculumYear) {
-            return response()->json(['message' => 'Curriculum year not found'], 404);
-        }
+        $curriculum = Curriculum::findOrFail($id);
 
-        $semesterTitles = [
-            1 => 'first',
-            2 => 'second',
-            3 => 'summer'
-        ];
-        $semTitle = $semesterTitles[$data['semester']] ?? null;
-        if (!$semTitle) {
-            return response()->json(['message' => 'Invalid semester value'], 400);
-        }
-
-        $curriculumSemester = $curriculumYear->semesters()->where('title', $semTitle)->first();
-        if (!$curriculumSemester) {
-            return response()->json(['message' => 'Curriculum semester not found'], 404);
-        }
-
-        $subjectsToAttach = [];
-        foreach ($data['subjects'] as $subjectId) {
-            $subjectsToAttach[$subjectId] = [
-                'curriculum_semester_area_id' => 1, // default or adjust as needed
-                'quota' => 0, // default or adjust as needed
+        $subjectsData = [];
+        foreach ($validated['subjects'] as $subjectId) {
+            $subjectData[$subjectId] = [
+                'year_level' => $validated['year_level'],
+                'semseter' => $validated['semseter'],
             ];
         }
-
-        $curriculumSemester->subjects()->syncWithoutDetaching($subjectsToAttach);
-
-        return response()->json(['message' => 'Subjects added successfully']);
+        $curriculum->subjects()->attach($subjectsData);
     }
 
-    /*public function removeSubject(Request $request, Curriculum $curriculum, $semester, $subject)*/
-    /*{*/
-    /*    // Optionally, add logic to verify that the semester belongs to this curriculum.*/
-    /*    $curriculumSemester = \App\Models\CurriculumSemester::findOrFail($semester);*/
-    /*    $curriculumSemester->subjects()->detach($subject);*/
-    /*    return response()->json(['message' => 'Subject removed successfully']);*/
-    /*}*/
+    public function removeSubjects(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'subjects' => 'required|array',
+            'subjects.*' => 'required|exists:subjects,id',
+        ]);
+        $curriculum = Curriculum::findOrFail($id);
+        $curriculum->subjects()->detach($validated['subjects']);
+    }
 }
