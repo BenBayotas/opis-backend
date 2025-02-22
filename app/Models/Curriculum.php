@@ -2,13 +2,21 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Curriculum extends Model
 {
-    protected $fillable = ['course_id', 'curriculum_year'];
+    use HasFactory;
+    protected $fillable = [
+        'year_implemented',
+        'course_id',
+        'department_id',
+        'start_year',
+        'end_year'
+    ];
 
 
     public function course(): BelongsTo

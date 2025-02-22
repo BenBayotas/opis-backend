@@ -43,20 +43,23 @@ class CurriculumController extends Controller
      */
     public function store(Request $request)
     {
-        $curricula = Curriculum::all();
-
-        // TODO: need to add start and end year
         $request->validate([
-            'year' => ['required', 'digits:4', 'unique:curricula,year_implemented'],
-            'course' => ['required']
+            'year_implemented' => ['required', 'digits:4', 'unique:curricula,year_implemented'],
+            'course_id' => ['required'],
+            'department_id' => 'required',
+            'start_year' => 'required',
+            'end_year' => 'required'
         ]);
 
         $curriculum = new Curriculum;
-        $curriculum->course_id = $request->input('course');
-        $curriculum->year_implemented = $request->input('year');
+        $curriculum->year_implemented = $request->input('year_implemented');
+        $curriculum->course_id = $request->input('course_id');
+        $curriculum->department_id = $request->input('department_id');
+        $curriculum->start_year = $request->input('start_year');
+        $curriculum->end_year = $request->input('end_year');
         $curriculum->save();
 
-        return redirect()->route('curriculum.index')->with('success', 'New curriculum added');
+        return redirect()->route('curriculum.index')->with('success', 'curriculum created');
     }
 
     /**
@@ -91,16 +94,20 @@ class CurriculumController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $curricula = Curriculum::all();
-
         $request->validate([
-            'year_implemented' => ['required', 'digits:4', Rule::unique('curricula', 'year_implemented')->ignore($id)],
-            'course' => ['required']
+            'year_implemented' => ['required', 'digits:4', 'unique:curricula,year_implemented'],
+            'course_id' => ['required'],
+            'department_id' => 'required',
+            'start_year' => 'required',
+            'end_year' => 'required'
         ]);
 
         $curriculum = Curriculum::findOrFail($id);
-        $curriculum->course_id = $request->input('course');
         $curriculum->year_implemented = $request->input('year_implemented');
+        $curriculum->course_id = $request->input('course_id');
+        $curriculum->department_id = $request->input('department_id');
+        $curriculum->start_year = $request->input('start_year');
+        $curriculum->end_year = $request->input('end_year');
         $curriculum->save();
 
         return redirect()->route('curriculum.index')->with('success', 'curriculum updated');
@@ -112,6 +119,8 @@ class CurriculumController extends Controller
     public function destroy(Curriculum $curriculum)
     {
         $curriculum->delete();
+
+        return redirect()->route('curriculum.index')->with('success', 'curriculum deleted');
     }
 
 

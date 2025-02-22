@@ -9,6 +9,8 @@ use Tests\TestCase;
 
 class DepartmentTest extends TestCase
 {
+    use RefreshDatabase;
+    protected $seed = true;
     public function testDepartmentCanBeCreated(): void
     {
         $data = [

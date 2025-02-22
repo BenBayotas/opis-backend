@@ -9,6 +9,8 @@ use Tests\TestCase;
 
 class SubjectTest extends TestCase
 {
+    use RefreshDatabase;
+    protected $seed = true;
     public function testSubjectCanBeCreated(): void
     {
         $data = [

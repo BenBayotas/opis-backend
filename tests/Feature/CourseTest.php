@@ -9,6 +9,8 @@ use Tests\TestCase;
 
 class CourseTest extends TestCase
 {
+    use RefreshDatabase;
+    protected $seed = true;
     public function testCourseCanBeCreated(): void
     {
         $data = [
