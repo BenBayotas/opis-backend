@@ -112,6 +112,7 @@ class SubjectController extends Controller
         //
     }
 
+    // TODO: put in it's own controller
     public function manageRequisites(Request $request, $subjectId)
     {
 
