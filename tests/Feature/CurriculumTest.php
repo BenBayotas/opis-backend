@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Curriculum;
+use App\Models\Subject;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -62,5 +63,22 @@ class CurriculumTest extends TestCase
         ]);
 
         $response->assertSessionHas('success', 'curriculum updated');
+    }
+
+    public function testCurriculumCanAddSubjects(): void
+    {
+        $curriculum = Curriculum::factory()->create();
+        $subject = Subject::factory()->create();
+        $subject2 = Subject::factory()->create();
+
+        $data = [
+            "year_level" => 1,
+            "semester" => 1,
+            "subjects" => [$subject->id, $subject2->id]
+        ];
+        $response = $this->post(route('curriculum.addSubjects', $curriculum->id), $data);
+
+        $response->assertRedirect(route('curriculum.index'));
+        $response->assertSessionHas('success', 'subject added to curriculum');
     }
 }

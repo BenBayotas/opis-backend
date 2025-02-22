@@ -33,7 +33,7 @@ Route::delete('/curriculum/{curriculum}', [CurriculumController::class, 'destroy
 Route::delete('/curriculum/{curriculum}/semester/{semester}/subject/{subject}', [CurriculumController::class, 'removeSubject'])->name('curriculum.removeSubject');
 
 // AJAX endpoint for adding subjects:
-Route::post('/curriculum/{curriculum}/add-subjects', [CurriculumController::class, 'addSubjects'])->name('curriculum.addSubjects');
+Route::post('/curriculum/{id}/add-subjects', [CurriculumController::class, 'addSubjects'])->name('curriculum.addSubjects');
 
 // SUBJECTS
 Route::get('/subject', [SubjectController::class, 'index'])->name('subject.index');

@@ -146,10 +146,12 @@ class CurriculumController extends Controller
         foreach ($validated['subjects'] as $subjectId) {
             $subjectData[$subjectId] = [
                 'year_level' => $validated['year_level'],
-                'semseter' => $validated['semseter'],
+                'semester' => $validated['semester'],
             ];
         }
         $curriculum->subjects()->attach($subjectsData);
+
+        return redirect()->route('curriculum.index')->with('success', 'subject added to curriculum');
     }
 
     public function removeSubjects(Request $request, $id)
