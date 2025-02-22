@@ -33,7 +33,6 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        $departments = Department::all();
         $course = new Course;
 
         $request->validate([
