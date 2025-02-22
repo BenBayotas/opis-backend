@@ -54,7 +54,7 @@ class SubjectController extends Controller
         // Create the subject using mass assignment.
         Subject::create($validated);
 
-        return redirect()->route('subject.index')->with('success', 'Subject Added');
+        return redirect()->route('subject.index')->with('success', 'subject created');
     }
 
     /**
@@ -101,7 +101,7 @@ class SubjectController extends Controller
         // Update the subject record.
         $subject->update($validated);
 
-        return redirect()->route('subject.index')->with('success', 'Subject Updated');
+        return redirect()->route('subject.index')->with('success', 'subject updated');
     }
 
     /**
@@ -110,6 +110,7 @@ class SubjectController extends Controller
     public function destroy(Subject $subject)
     {
         $subject->delete();
+        return redirect()->route('subject.index')->with('success', 'subject deleted');
     }
 
     // TODO: put in it's own controller
