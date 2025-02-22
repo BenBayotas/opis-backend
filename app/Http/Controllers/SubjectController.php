@@ -109,7 +109,7 @@ class SubjectController extends Controller
      */
     public function destroy(Subject $subject)
     {
-        //
+        $subject->delete();
     }
 
     // TODO: put in it's own controller

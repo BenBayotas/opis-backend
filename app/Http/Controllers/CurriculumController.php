@@ -115,7 +115,7 @@ class CurriculumController extends Controller
     }
 
 
-    // NOTE: expects this kind of input
+    // NOTE: input format
     // {
     //   "year_level": 1,
     //   "semester": 1,

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Curriculum;
 use Illuminate\Http\Request;
 use App\Models\Subject;
 
@@ -27,19 +28,36 @@ class SubjectPreCoEquiController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    // TODO: here
+    // takes a subject, that's in a curriculum, and adds one or many requisites of specified type
     public function store(Request $request)
     {
-        $data = $request->validate([
+        // NOTE: doesn't validate for duplicates
+        $validated = $request->validate([
             'subject_id'      => 'required|exists:subjects,id',
-            'dependent_subject_id'  => 'required|exists:subjects,id',
             'curriculum_id'   => 'required|exists:curricula,id',
+
+            'requisites' => 'required|array',
+            'requisite.dependent_subject_id'  => 'required|exists:subjects,id',
+            'requisite.type' => 'required|integer',
+
         ]);
 
-        $subject = Subject::findOrFail($data['subject_id']);
-        $subject->corequisites()->syncWithoutDetaching([
-            $data['corequisite_id'] => ['curriculum_id' => $data['curriculum_id']]
-        ]);
+        $subject = Subject::findOrFial($validated['subject_id']);
+
+        foreach ($validated['requisites'] as $requisite) {
+            $pivotData = [
+                'dependent_subject_id' => $requisite['dependent_subject_id'],
+                'type' => $requisite['type'],
+            ];
+            switch ($requisite['type']) {
+                case 1:
+                    $subject->prerequisites()->attach($requisite['dependent_subject_id'], $pivotData);
+                case 2:
+                    $subject->corequisites()->attach($requisite['dependent_subject_id'], $pivotData);
+                case 3:
+                    $subject->equivalents()->attach($requisite['dependent_subject_id'], $pivotData);
+            }
+        }
 
         return redirect()->back()->with('success', 'dependent added successfully.');
     }
