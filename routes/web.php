@@ -6,7 +6,11 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\SubjectController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [DepartmentController::class, 'index']);
+// Departments
+Route::get('/department', [DepartmentController::class, 'index'])->name('department.index');
+Route::post('/department', [DepartmentController::class, 'store'])->name('department.store');
+Route::put('/department/{id}', [DepartmentController::class, 'update'])->name('department.update');
+Route::delete('/department/{id}', [DepartmentController::class, 'destroy'])->name('department.destroy');
 
 // COURSES
 Route::get('/course', [CourseController::class, 'index'])->name('course.index');

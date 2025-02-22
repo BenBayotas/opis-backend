@@ -11,6 +11,14 @@ class Department extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        "title",
+        "program_type_id",
+        "dean_id",
+        "chairperson_id",
+    ];
+
+
     public function courses(): HasMany
     {
         return $this->hasMany(Course::class);

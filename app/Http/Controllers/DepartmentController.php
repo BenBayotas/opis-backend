@@ -13,7 +13,6 @@ class DepartmentController extends Controller
     public function index()
     {
         $departments = Department::all();
-        dd($departments);
     }
 
     /**
@@ -29,6 +28,8 @@ class DepartmentController extends Controller
         ]);
 
         Department::create($validated);
+
+        return redirect()->route('course.index')->with('success', 'department created');
     }
 
     public function create()
@@ -53,7 +54,7 @@ class DepartmentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Department $department)
+    public function update(Request $request, $id)
     {
         $validated = $request->validate([
             "title" => "required",
@@ -62,14 +63,18 @@ class DepartmentController extends Controller
             "chairperson_id" => "required",
         ]);
 
+        $department = Department::findOrFail($id);
         $department->update($validated);
+
+        return redirect()->route('course.index')->with('success', 'department updated');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Department $department)
+    public function destroy($id)
     {
-        $department->delete();
+        Department::destroy($id);
+        return redirect()->route('course.index')->with('success', 'department deleted');
     }
 }
