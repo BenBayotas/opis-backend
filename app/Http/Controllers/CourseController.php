@@ -35,8 +35,10 @@ class CourseController extends Controller
     {
         $course = new Course;
 
+        // NOTE: head id needs validation
         $request->validate([
             'department_id'     => ['required', 'exists:departments,id'],
+            'head_id' => ['required'],
             'code'              => ['required'],
             'description'       => ['required'],
             'major'             => ['nullable'],
@@ -48,6 +50,7 @@ class CourseController extends Controller
         ]);
 
         $course->department_id       = $request->input('department_id');
+        $course->head_id       = $request->input('head_id');
         $course->code             = $request->input('code');
         $course->description      = $request->input('description');
         $course->major            = $request->input('major');
@@ -59,7 +62,7 @@ class CourseController extends Controller
 
         $course->save();
 
-        return redirect()->route('course.index')->with('success', 'Course Added');
+        return redirect()->route('course.index')->with('success', 'course added');
     }
 
     public function create()
@@ -146,14 +149,16 @@ class CourseController extends Controller
 
         $course->save();
 
-        return redirect()->route('course.index')->with('success', 'Course Updated');
+        return redirect()->route('course.index')->with('success', 'course updated');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Course $course)
+    public function destroy($id)
     {
-        $course->delete();
+        Course::destroy($id);
+
+        return redirect()->route('course.index')->with('success', 'course deleted');
     }
 }

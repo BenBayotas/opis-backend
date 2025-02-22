@@ -17,14 +17,16 @@ class CourseFactory extends Factory
     public function definition(): array
     {
         return [
-            'department_id' => 1, // TODO: fix
+            'department_id' => 1,
+            'head_id' => 1,
             'code' => 'bscs',
-            'acronym' => 'cs',
-            'description' => 'bachelor of science in computer science',
-            'major' => 'major in data science',
-            'year_granted' => '2004',
-            'years' => 4,
-            'slots' => 40,
+            'description' => 'bachelor of science of computer science',
+            'major' => '',
+            'authority_no' => '',
+            'accreditation_id' => '',
+            'year_granted' => '2003',
+            'years' => 5,
+            'slots' => 45,
         ];
     }
 }

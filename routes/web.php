@@ -12,7 +12,7 @@ Route::get('/', [DepartmentController::class, 'index']);
 Route::get('/course', [CourseController::class, 'index'])->name('course.index');
 Route::get('/course/search', [CourseController::class, 'search'])->name('course.search');
 Route::get('/course/create', [CourseController::class, 'create'])->name('course.create');
-Route::post('/course/store', [CourseController::class, 'store'])->name('course.store');
+Route::post('/course', [CourseController::class, 'store'])->name('course.store');
 Route::get('/course/{id}/edit', [CourseController::class, 'edit'])->name('course.edit');
 Route::put('/course/{id}', [CourseController::class, 'update'])->name('course.update');
 Route::delete('/course/{id}', [CourseController::class, 'destroy'])->name('course.destroy');
