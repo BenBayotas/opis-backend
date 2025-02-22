@@ -137,7 +137,7 @@ class CourseController extends Controller
         $course = Course::findOrFail($id);
 
         $course->department_id       = $request->input('department_id');
-        $course->head_id = $request->input('department_id');
+        $course->head_id = $request->input('head_id');
         $course->code             = $request->input('code');
         $course->description      = $request->input('description');
         $course->major            = $request->input('major');

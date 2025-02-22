@@ -39,4 +39,39 @@ class CourseTest extends TestCase
         $this->assertDatabaseMissing('courses', ['id' => $course->id]);
         $response->assertSessionHas('success', 'course deleted');
     }
+
+    public function testCourseCanBeEdited(): void
+    {
+        $course = Course::factory()->create();
+
+        $updatedData = [
+            'department_id' => 1,
+            'head_id' => 2,
+            'code' => 'bsit',
+            'description' => 'Bachelor of Science in Information Technology',
+            'major' => 'Data Analytics',
+            'authority_no' => 'ge 54321',
+            'accreditation_id' => '98765',
+            'year_granted' => '2024',
+            'years' => 2,
+            'slots' => 20,
+        ];
+
+        $response = $this->put(route('course.update', $course->id), $updatedData);
+        $response->assertRedirect(route('course.index'));
+        $this->assertDatabaseHas('courses', [
+            'department_id' => 1,
+            'head_id' => 2,
+            'code' => 'bsit',
+            'description' => 'Bachelor of Science in Information Technology',
+            'major' => 'Data Analytics',
+            'authority_no' => 'ge 54321',
+            'accreditation_id' => '98765',
+            'year_granted' => '2024',
+            'years' => 2,
+            'slots' => 20,
+        ]);
+
+        $response->assertSessionHas('success', 'course updated');
+    }
 }
