@@ -44,7 +44,7 @@ class Subject extends Model
 
     public function prerequisites(): BelongsToMany
     {
-        return $this->belongsToMany(Subject::class, 'subject_pre_co_req', 'subject_id', 'dependent_subject_id')
+        return $this->belongsToMany(Subject::class, 'subject_pre_co_equi', 'subject_id', 'dependent_subject_id')
             ->using(SubjectPreCoEqui::class)
             ->withPivot('type', 'curriculum_id')
             ->wherePivot('type', 1)
@@ -53,7 +53,7 @@ class Subject extends Model
 
     public function prereqFor(): BelongsToMany
     {
-        return $this->belongsToMany(Subject::class, 'subject_pre_co_req', 'dependent_subject_id', 'subject_id')
+        return $this->belongsToMany(Subject::class, 'subject_pre_co_equi', 'dependent_subject_id', 'subject_id')
             ->using(SubjectPreCoEqui::class)
             ->withPivot('type', 'curriculum_id')
             ->wherePivot('type', 1)
@@ -62,7 +62,7 @@ class Subject extends Model
 
     public function corequisites(): BelongsToMany
     {
-        return $this->belongsToMany(Subject::class, 'subject_pre_co_req', 'subject_id', 'dependent_subject_id')
+        return $this->belongsToMany(Subject::class, 'subject_pre_co_equi', 'subject_id', 'dependent_subject_id')
             ->using(SubjectPreCoEqui::class)
             ->withPivot('type', 'curriculum_id')
             ->wherePivot('type', 2)
@@ -71,7 +71,7 @@ class Subject extends Model
 
     public function coreqFor(): BelongsToMany
     {
-        return $this->belongsToMany(Subject::class, 'subject_pre_co_req', 'dependent_subject_id', 'subject_id')
+        return $this->belongsToMany(Subject::class, 'subject_pre_co_equi', 'dependent_subject_id', 'subject_id')
             ->using(SubjectPreCoEqui::class)
             ->withPivot('type', 'curriculum_id')
             ->wherePivot('type', 2)
@@ -80,7 +80,7 @@ class Subject extends Model
 
     public function equivalents(): BelongsToMany
     {
-        return $this->belongsToMany(Subject::class, 'subject_pre_co_req', 'dependent_subject_id', 'subject_id')
+        return $this->belongsToMany(Subject::class, 'subject_pre_co_equi', 'dependent_subject_id', 'subject_id')
             ->using(SubjectPreCoEqui::class)
             ->withPivot('type', 'curriculum_id')
             ->wherePivot('type', 3)
@@ -89,7 +89,7 @@ class Subject extends Model
 
     public function equivFor(): BelongsToMany
     {
-        return $this->belongsToMany(Subject::class, 'subject_pre_co_req', 'dependent_subject_id', 'subject_id')
+        return $this->belongsToMany(Subject::class, 'subject_pre_co_equi', 'dependent_subject_id', 'subject_id')
             ->using(SubjectPreCoEqui::class)
             ->withPivot('type', 'curriculum_id')
             ->wherePivot('type', 3)

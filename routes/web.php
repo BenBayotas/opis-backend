@@ -4,6 +4,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CurriculumController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\SubjectPreCoEquiController;
 use Illuminate\Support\Facades\Route;
 
 // Departments
@@ -47,4 +48,5 @@ Route::delete('/subject/{subject}', [SubjectController::class, 'destroy'])->name
 
 Route::get('/subject/{subject}/manage-requisites', [SubjectController::class, 'manageRequisites'])->name('subject.manageRequisites');
 
-Route::post('/subject/requisites', [SubjectController::class, 'storeRequisites'])->name('subject.requisites.store');
+Route::post('/subject/{id}/requisites', [SubjectPreCoEquiController::class, 'store'])->name('subject.requisites.store');
+Route::delete('/subject/{subjectId}/requisites/{reqId}', [SubjectPreCoEquiController::class, 'destroy'])->name('subject.requisites.destroy');

@@ -28,23 +28,23 @@ class SubjectPreCoEquiController extends Controller
      * Store a newly created resource in storage.
      */
     // takes a subject, that's in a curriculum, and adds one or many requisites of specified type
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
         // NOTE: doesn't validate for duplicates
         $validated = $request->validate([
-            'subject_id'      => 'required|exists:subjects,id',
             'curriculum_id'   => 'required|exists:curricula,id',
 
             'requisites' => 'required|array',
-            'requisite.dependent_subject_id'  => 'required|exists:subjects,id',
-            'requisite.type' => 'required|integer',
+            'requisites.*.dependent_subject_id'  => 'required|exists:subjects,id',
+            'requisites.*.type' => 'required|integer',
 
         ]);
 
-        $subject = Subject::findOrFial($validated['subject_id']);
+        $subject = Subject::findOrFail($id);
 
         foreach ($validated['requisites'] as $requisite) {
             $pivotData = [
+                'curriculum_id' => $validated['curriculum_id'],
                 'dependent_subject_id' => $requisite['dependent_subject_id'],
                 'type' => $requisite['type'],
             ];
@@ -58,13 +58,13 @@ class SubjectPreCoEquiController extends Controller
             }
         }
 
-        return redirect()->back()->with('success', 'dependent added successfully.');
+        return redirect()->back()->with('success', 'requisite added successfully');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id,)
     {
         //
     }
@@ -88,10 +88,11 @@ class SubjectPreCoEquiController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, $subjectId, $corequisiteId)
+    public function destroy(Request $request, $subjectId, $reqId)
     {
         $subject = Subject::findOrFail($subjectId);
-        $subject->corequisites()->detach($corequisiteId);
-        return redirect()->back()->with('success', 'Corequisite removed successfully.');
+        $subject->corequisites()->detach($reqId);
+
+        return redirect()->back()->with('success', 'requisite removed successfully.');
     }
 }

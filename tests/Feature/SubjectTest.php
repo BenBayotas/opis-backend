@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Curriculum;
 use App\Models\Subject;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -86,5 +87,44 @@ class SubjectTest extends TestCase
         ]);
 
         $response->assertSessionHas('success', 'subject updated');
+    }
+
+    public function testSubjectCanCreateRequisite(): void
+    {
+        $subject = Subject::factory()->create();
+        $dependent = Subject::factory()->create();
+        $curriculum = Curriculum::factory()->create();
+
+        $data = [
+            'curriculum_id' => $curriculum->id,
+            'requisites' => [
+                ['dependent_subject_id' => $dependent->id, 'type' => 1]
+            ]
+        ];
+        $response = $this->post(route('subject.requisites.store', $subject->id), $data);
+
+        $response->assertRedirect();
+        $response->assertSessionHas('success', 'requisite added successfully');
+    }
+
+    public function testSubjectCanDeleteRequisite(): void
+    {
+        /*$curriculum = Curriculum::factory()->create();*/
+        /*$subject = Subject::factory()->create();*/
+        /*$curriculum->subjects()->attach(*/
+        /*    $subject->id,*/
+        /*    [*/
+        /*        'year_level' => 1,*/
+        /*        'semester' => 1*/
+        /*    ]*/
+        /*);*/
+        /*$data = [*/
+        /*    "subjects" => [$subject->id],*/
+        /*];*/
+        /*$response = $this->delete(route('curriculum.removeSubjects', $curriculum->id), $data);*/
+        /**/
+        /*$response->assertRedirect(route('curriculum.index'));*/
+        /*$this->assertDatabaseMissing('curriculum_subject', ['subject_id' => $subject->id]);*/
+        /*$response->assertSessionHas('success', 'subject deleted to curriculum');*/
     }
 }
