@@ -81,4 +81,25 @@ class CurriculumTest extends TestCase
         $response->assertRedirect(route('curriculum.index'));
         $response->assertSessionHas('success', 'subject added to curriculum');
     }
+
+    public function testCurriculumCanDeleteSubjects(): void
+    {
+        $curriculum = Curriculum::factory()->create();
+        $subject = Subject::factory()->create();
+        $curriculum->subjects()->attach(
+            $subject->id,
+            [
+                'year_level' => 1,
+                'semester' => 1
+            ]
+        );
+        $data = [
+            "subjects" => [$subject->id],
+        ];
+        $response = $this->delete(route('curriculum.removeSubjects', $curriculum->id), $data);
+
+        $response->assertRedirect(route('curriculum.index'));
+        $this->assertDatabaseMissing('curriculum_subject', ['subject_id' => $subject->id]);
+        $response->assertSessionHas('success', 'subject deleted to curriculum');
+    }
 }

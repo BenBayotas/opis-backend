@@ -162,5 +162,8 @@ class CurriculumController extends Controller
         ]);
         $curriculum = Curriculum::findOrFail($id);
         $curriculum->subjects()->detach($validated['subjects']);
+
+
+        return redirect()->route('curriculum.index')->with('success', 'subject deleted to curriculum');
     }
 }
