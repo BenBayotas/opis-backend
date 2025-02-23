@@ -49,4 +49,4 @@ Route::delete('/subject/{subject}', [SubjectController::class, 'destroy'])->name
 Route::get('/subject/{subject}/manage-requisites', [SubjectController::class, 'manageRequisites'])->name('subject.manageRequisites');
 
 Route::post('/subject/{id}/requisites', [SubjectPreCoEquiController::class, 'store'])->name('subject.requisites.store');
-Route::delete('/subject/{subjectId}/requisites/{reqId}', [SubjectPreCoEquiController::class, 'destroy'])->name('subject.requisites.destroy');
+Route::delete('/curriculum/{currId}/subject/{subjectId}/requisites/{reqId}', [SubjectPreCoEquiController::class, 'destroy'])->name('subject.requisites.destroy');

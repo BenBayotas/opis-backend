@@ -109,22 +109,21 @@ class SubjectTest extends TestCase
 
     public function testSubjectCanDeleteRequisite(): void
     {
-        /*$curriculum = Curriculum::factory()->create();*/
-        /*$subject = Subject::factory()->create();*/
-        /*$curriculum->subjects()->attach(*/
-        /*    $subject->id,*/
-        /*    [*/
-        /*        'year_level' => 1,*/
-        /*        'semester' => 1*/
-        /*    ]*/
-        /*);*/
-        /*$data = [*/
-        /*    "subjects" => [$subject->id],*/
-        /*];*/
-        /*$response = $this->delete(route('curriculum.removeSubjects', $curriculum->id), $data);*/
-        /**/
-        /*$response->assertRedirect(route('curriculum.index'));*/
-        /*$this->assertDatabaseMissing('curriculum_subject', ['subject_id' => $subject->id]);*/
-        /*$response->assertSessionHas('success', 'subject deleted to curriculum');*/
+        $subject = Subject::factory()->create();
+        $dependent = Subject::factory()->create();
+        $curriculum = Curriculum::factory()->create();
+
+        $data = [
+            'curriculum_id' => $curriculum->id,
+            'dependent_subject_id' => $dependent->id,
+            'type' => 1,
+        ];
+        $subject->prerequisites()->attach($dependent->id, $data);
+
+        $response = $this->delete(route('subject.requisites.destroy', [$curriculum->id, $subject->id, $dependent->id]));
+
+        $response->assertRedirect();
+        $this->assertDatabaseMissing('subject_pre_co_equi', ['subject_id' => $subject->id, 'curriculum_id' => $curriculum->id]);
+        $response->assertSessionHas('success', 'requisite removed successfully.');
     }
 }

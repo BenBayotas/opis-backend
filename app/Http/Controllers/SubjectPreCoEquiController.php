@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Curriculum;
 use Illuminate\Http\Request;
 use App\Models\Subject;
 
@@ -88,10 +89,10 @@ class SubjectPreCoEquiController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, $subjectId, $reqId)
+    public function destroy(Request $request, $currId, $subjectId, $reqId)
     {
         $subject = Subject::findOrFail($subjectId);
-        $subject->corequisites()->detach($reqId);
+        $subject->requisites()->detach($reqId, ['curriculum_id' => $currId]);
 
         return redirect()->back()->with('success', 'requisite removed successfully.');
     }

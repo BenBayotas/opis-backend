@@ -154,6 +154,7 @@ class CurriculumController extends Controller
         return redirect()->route('curriculum.index')->with('success', 'subject added to curriculum');
     }
 
+    // TODO: make subject id a url thing
     public function removeSubjects(Request $request, $id)
     {
         $validated = $request->validate([

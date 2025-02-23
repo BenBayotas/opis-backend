@@ -42,6 +42,15 @@ class Subject extends Model
             ->withTimestamps();
     }
 
+
+    public function requisites(): BelongsToMany
+    {
+        return $this->belongsToMany(Subject::class, 'subject_pre_co_equi', 'subject_id', 'dependent_subject_id')
+            ->using(SubjectPreCoEqui::class)
+            ->withPivot('type', 'curriculum_id')
+            ->withTimestamps();
+    }
+
     public function prerequisites(): BelongsToMany
     {
         return $this->belongsToMany(Subject::class, 'subject_pre_co_equi', 'subject_id', 'dependent_subject_id')
